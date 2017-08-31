@@ -1,5 +1,5 @@
 var sampleApp = angular.module('travelingTips', []);
-sampleApp.controller('MapController', function ($scope) {
+sampleApp.controller('MapController', function ($scope, $http) {
 
   var infoWindow;
   var labelNumber = 1;
@@ -40,14 +40,21 @@ sampleApp.controller('MapController', function ($scope) {
        map: $scope.map,
        draggable: true
      });
-     markers.push({id: labelNumber, lat: location.lat(), long: location.lng()})
+     markers.push({latitude: location.lat().toString(), longitude: location.lng().toString(), sequence: labelNumber})
      labelNumber = labelNumber + 1;
-     //console.log("lat: " + location.lat() + "/ lng: " + location.lng());
    }
 
    function saveMarkers() {
      console.log(markers.length);
      console.log(markers);
+     $http({
+        method : "POST",
+        url : "travels",
+        data : markers,
+        headers : {
+            'Content-Type' : 'application/json'
+        }
+    })
    }
 
   function handleLocationError(browserHasGeolocation, infoWindow, pos) {
