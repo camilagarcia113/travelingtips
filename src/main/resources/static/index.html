@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="travelingTips">
+<head>
+    <title>Traveling Tips</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEFSPKU4x3OT2MRQsjm5v2Bp7bwo1YQpI"></script>
+    <script type="text/javascript" src="scripts/mapController.js"></script>
+</head>
+
+<body>
+    <div ng-controller="MapController">
+        <div id="map"></div>
+        <button id="saveMap" type="button">Save</button>
+    </div>
+</body>
+</html>
