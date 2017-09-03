@@ -62,6 +62,15 @@ sampleApp.controller('MapController', function($scope, $http) {
       labelNumber = 1;
       refreshMarkersInMap(markerSequence);
     });
+
+    google.maps.event.addListener(marker, 'dragend', function(event) {
+      markers.map(function(mark) {
+        if(mark.sequence === marker.sequence) {
+          mark.latitude = marker.position.lat().toString();
+          mark.longitude = marker.position.lng().toString();
+        }
+      });
+    });
   }
 
   function arrangeMapMarkersSequence(sequenceNumber) {
@@ -85,8 +94,6 @@ sampleApp.controller('MapController', function($scope, $http) {
   }
 
   function saveMarkers() {
-    console.log(markers.length);
-    console.log(markers);
     $http({
       method: "POST",
       url: "travels",
