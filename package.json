@@ -1,0 +1,19 @@
+{
+  "name": "travelingtips",
+  "version": "1.0.0",
+  "description": "<img src=\"https://image.flaticon.com/icons/svg/201/201623.svg\" height=\"48\" width=\"48\" >",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camilagarcia113/travelingtips.git"
+  },
+  "author": "Camila Garcia",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/camilagarcia113/travelingtips/issues"
+  },
+  "homepage": "https://github.com/camilagarcia113/travelingtips#readme"
+}

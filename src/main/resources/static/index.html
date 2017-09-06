@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="travelingTips">
 <head>
+    <meta charset="utf-8"/>
     <title>Traveling Tips</title>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -15,11 +16,44 @@
 </head>
 
 <body>
-	<h2> Crea tu viaje: </h2>
-	<h4> Marca por donde pasaste en el mapa y compartilo con otros! </h4>
-    <div ng-controller="MapController">
-        <div id="map"></div>
-        <button id="saveMap" type="button">Save</button>
+	<h4> Crea/Edita tu viaje: </h4>
+    <div class="row">
+        <div ng-controller="MapController">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Marca por donde pasaste en el mapa y compartilo con otros!</div>
+                    <div class="panel-body">
+                        <input type="text" class="form-control inputText" placeholder="Titulo del viaje" ng-model="travelTitle">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Contanos mas sobre tu viaje!</div>
+                    <div class="panel-body">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class=" glyphicon glyphicon-map-marker"></span>1</span>
+                            <input type="text" class="form-control" placeholder="Lugar">
+                        </div>
+                        <textarea class="form-control" rows="3" id="comment" maxlength="200"></textarea>
+                    </div>
+                </div>
+                <button id="saveMap" type="button" class="btn btn-default">Save</button>
+            </div>
+
+            <!--<div class="col-sm-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Busca un viaje por titulo y editalo</div>
+                    <div class="panel-body">
+                        <input type="text" class="form-control inputText" ng-model="travelSearch">
+                        <button id="searchMap" type="button" class="btn btn-default">Search</button>
+                        <button id="editMap" type="button" class="btn btn-default">Edit</button>
+                    </div>
+                </div>
+            </div>-->
+        </div>
     </div>
 </body>
 </html>

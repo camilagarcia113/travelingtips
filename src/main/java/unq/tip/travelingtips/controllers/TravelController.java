@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import unq.tip.travelingtips.model.Coordinate;
 import unq.tip.travelingtips.services.TravelService;
-
-import java.util.List;
 
 @Controller
 public class TravelController {
@@ -19,9 +16,9 @@ public class TravelController {
     TravelService travelService;
 
     @RequestMapping(value = "/travels", consumes = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<String> saveMarkedTravel(@RequestBody List<Coordinate> data) {
+    public ResponseEntity<String> saveMarkedTravel(@RequestBody TravelPojo data) {
         if(data != null) {
-            travelService.saveTravel(data);
+            travelService.saveTravel(data.getUser(), data.getTitle(), data.getCoordinates());
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

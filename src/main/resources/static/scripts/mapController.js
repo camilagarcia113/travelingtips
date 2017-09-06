@@ -1,11 +1,12 @@
-var sampleApp = angular.module('travelingTips', []);
-sampleApp.controller('MapController', function($scope, $http) {
+var app = angular.module('travelingTips', []);
+app.controller('MapController', function($scope, $http) {
 
   var infoWindow;
   var labelNumber = 1;
   var labelIndex = 0;
   var markers = [];
-  var mapMarkers = [];
+  $scope.mapMarkers = [];
+  $scope.travelTitle = "";
 
   $scope.map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -46,7 +47,7 @@ sampleApp.controller('MapController', function($scope, $http) {
       draggable: true,
       sequence: labelNumber
     });
-    mapMarkers.push(marker);
+    $scope.mapMarkers.push(marker);
     markers.push({
       latitude: location.lat().toString(),
       longitude: location.lng().toString(),
@@ -74,22 +75,26 @@ sampleApp.controller('MapController', function($scope, $http) {
   }
 
   function arrangeMapMarkersSequence(sequenceNumber) {
-    mapMarkers.splice((sequenceNumber - 1), 1);
-    for (var marker in mapMarkers) {
-      if (mapMarkers[marker].label > sequenceNumber) {
-        mapMarkers[marker].label -= 1;
+    $scope.mapMarkers.splice((sequenceNumber - 1), 1);
+    for (var marker in $scope.mapMarkers) {
+      if ($scope.mapMarkers[marker].label > sequenceNumber) {
+        $scope.mapMarkers[marker].label -= 1;
       }
     };
   }
 
   function refreshMarkersInMap() {
-    var marks = mapMarkers;
-    for (var marker in mapMarkers) {
-      mapMarkers[marker].setMap(null);
-    }
-    mapMarkers = [];
+    var marks = $scope.mapMarkers;
+    removeAllMarkersFromMap();
+    $scope.mapMarkers = [];
     for(var marker in marks) {
       addMarker(marks[marker].position);
+    }
+  }
+
+  function removeAllMarkersFromMap() {
+    for (var marker in $scope.mapMarkers) {
+      $scope.mapMarkers[marker].setMap(null);
     }
   }
 
@@ -97,11 +102,15 @@ sampleApp.controller('MapController', function($scope, $http) {
     $http({
       method: "POST",
       url: "travels",
-      data: markers,
+      data: {user: "pepe", title: $scope.travelTitle, coordinates: markers},
       headers: {
         'Content-Type': 'application/json'
       }
     })
+    $scope.travelTitle = "";
+    removeAllMarkersFromMap();
+    markers = [];
+    $scope.mapMarkers = [];
   }
 
   function handleLocationError(browserHasGeolocation, infoWindow, pos) {

@@ -18,9 +18,9 @@ public class TravelService {
     @Autowired
     private CoordinateRepository coordinateRepository;
 
-    public void saveTravel(List<Coordinate> coordinates) {
+    public void saveTravel(String user, String title, List<Coordinate> coordinates) {
         coordinateRepository.save(coordinates);
-        Travel travel = new Travel(coordinates);
+        Travel travel = new Travel(user, title, coordinates);
         travelRepository.save(travel);
     }
 }
