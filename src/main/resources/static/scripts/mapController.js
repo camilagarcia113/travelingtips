@@ -7,6 +7,7 @@ app.controller('MapController', function($scope, $http) {
   var markers = [];
   $scope.mapMarkers = [];
   $scope.travelTitle = "";
+  $scope.showCommentSection = false;
 
   $scope.map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -107,10 +108,16 @@ app.controller('MapController', function($scope, $http) {
         'Content-Type': 'application/json'
       }
     })
-    $scope.travelTitle = "";
-    removeAllMarkersFromMap();
-    markers = [];
-    $scope.mapMarkers = [];
+    openTravelCommentSection();
+    //$scope.travelTitle = "";
+    //removeAllMarkersFromMap();
+    //markers = [];
+    //$scope.mapMarkers = [];
+
+  }
+
+  function openTravelCommentSection() {
+    $scope.showCommentSection = true;
   }
 
   function handleLocationError(browserHasGeolocation, infoWindow, pos) {

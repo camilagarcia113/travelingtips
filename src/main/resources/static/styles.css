@@ -21,6 +21,10 @@ h2, h4 {
   width:500px;
 }
 
-#saveMap, #searchMap, #editMap, #comment {
+#saveMap, #searchMap, #editMap {
     margin-top: 1%;
+}
+
+.input-group {
+  margin-top: 1%;
 }

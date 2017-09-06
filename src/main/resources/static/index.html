@@ -30,17 +30,30 @@
             </div>
 
             <div class="col-sm-6">
-                <div class="panel panel-default">
+                <div class="panel panel-default" ng-show="showCommentSection">
                     <div class="panel-heading">Contanos mas sobre tu viaje!</div>
                     <div class="panel-body">
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class=" glyphicon glyphicon-map-marker"></span>1</span>
-                            <input type="text" class="form-control" placeholder="Lugar">
+                        <div ng-repeat="marker in mapMarkers">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-map-marker"></span>
+                                    {{marker.sequence}}
+                                </span>
+                                <input type="text" class="form-control" placeholder="Lugar">
+                            </div>
+                            <textarea class="form-control" rows="3" id="comment" maxlength="200"
+                                      placeholder="Escribi un comentario sobre el lugar!"></textarea>
                         </div>
-                        <textarea class="form-control" rows="3" id="comment" maxlength="200"></textarea>
                     </div>
                 </div>
-                <button id="saveMap" type="button" class="btn btn-default">Save</button>
+                <button id="saveMap" type="button" class="btn btn-default" ng-show="!showCommentSection">Save</button>
+                <button id="okMap" type="button" class="btn btn-default" ng-show="showCommentSection">OK</button>
+
+                <ul>
+                    <li ng-repeat-start="airport in airports">{{airport.code}}</li>
+                    <li>{{airport.city}}</li>
+                    <li ng-repeat-end>{{airport.name}}</li>
+                </ul>
             </div>
 
             <!--<div class="col-sm-3">
