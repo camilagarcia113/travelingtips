@@ -3,7 +3,24 @@
   width: 50%;
 }*/
 
+h2, h4 {
+  margin-left: 1%;
+}
+
+.panel-default {
+  margin-left: 2%
+}
+
+.inputText {
+    width: 50%;
+    margin-bottom: 1%;
+}
+
 #map {
   height:500px;
   width:500px;
+}
+
+#saveMap, #searchMap, #editMap, #comment {
+    margin-top: 1%;
 }
