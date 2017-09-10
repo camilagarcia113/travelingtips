@@ -21,6 +21,14 @@ h2, h4 {
   width:500px;
 }
 
-#saveMap, #searchMap, #editMap, #comment {
+#okMap, #searchMap, #saveTravel {
     margin-top: 1%;
+}
+
+.input-group {
+  margin-top: 1%;
+}
+
+.input-group-addon {
+  text-align: left;
 }

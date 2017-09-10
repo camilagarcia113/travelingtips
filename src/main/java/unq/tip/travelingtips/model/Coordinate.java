@@ -13,14 +13,19 @@ public class Coordinate implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
-    private Integer sequence;
     private String latitude;
     private String longitude;
+    private Integer sequence;
+    private String comment;
+    private Integer rating;
 
-    public Coordinate (String aLatitude, String aLongitude, Integer aSequence) {
+    public Coordinate (String aLatitude, String aLongitude, Integer aSequence,
+                       String aComment, Integer aRating) {
         sequence = aSequence;
         latitude = aLatitude;
         longitude = aLongitude;
+        comment = aComment;
+        rating = aRating;
     }
 
     public Coordinate() {}
@@ -59,5 +64,21 @@ public class Coordinate implements Serializable {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 }
