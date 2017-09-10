@@ -6,13 +6,14 @@
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
-    <link rel="stylesheet" href="styles.css">
-
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEFSPKU4x3OT2MRQsjm5v2Bp7bwo1YQpI"></script>
+    <script type="text/javascript" src="scripts/libraries/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script type="text/javascript" src="scripts/mapController.js"></script>
+    
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -39,21 +40,17 @@
                                     <span class="glyphicon glyphicon-map-marker"></span>
                                     {{marker.sequence}}
                                 </span>
-                                <input type="text" class="form-control" placeholder="Lugar">
+                                <span class="input-group-addon" uib-rating ng-model="ratings[$index]" read-only="isReadonly" on-hover="hoveringOver(value)" aria-labelledby="default-rating"></span>
+                                </span>
                             </div>
-                            <textarea class="form-control" rows="3" id="comment" maxlength="200"
-                                      placeholder="Escribi un comentario sobre el lugar!"></textarea>
+                            <textarea class="form-control" rows="3" id="comment" maxlength="200" 
+                            	ng-model="comments[$index]" placeholder="Escribi un comentario sobre el lugar!">
+                        	</textarea>
                         </div>
                     </div>
                 </div>
-                <button id="saveMap" type="button" class="btn btn-default" ng-show="!showCommentSection">Save</button>
-                <button id="okMap" type="button" class="btn btn-default" ng-show="showCommentSection">OK</button>
-
-                <ul>
-                    <li ng-repeat-start="airport in airports">{{airport.code}}</li>
-                    <li>{{airport.city}}</li>
-                    <li ng-repeat-end>{{airport.name}}</li>
-                </ul>
+                <button id="okMap" type="button" class="btn btn-default" ng-show="!showCommentSection" ng-click="openCommentSection()">OK</button>
+                <button id="saveTravel" type="button" class="btn btn-default" ng-show="showCommentSection" ng-click="saveTravel()">Save</button>
             </div>
 
             <!--<div class="col-sm-3">

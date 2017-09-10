@@ -1,4 +1,4 @@
-var app = angular.module('travelingTips', []);
+var app = angular.module('travelingTips', ['ui.bootstrap']);
 app.controller('MapController', function($scope, $http) {
 
   var infoWindow;
@@ -8,6 +8,14 @@ app.controller('MapController', function($scope, $http) {
   $scope.mapMarkers = [];
   $scope.travelTitle = "";
   $scope.showCommentSection = false;
+  $scope.comments = [];
+  $scope.ratings = [];
+  $scope.isReadonly = false;
+
+  $scope.hoveringOver = function(value) {
+    $scope.overStar = value;
+    $scope.percent = 100 * (value / $scope.max);
+  };
 
   $scope.map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -38,8 +46,6 @@ app.controller('MapController', function($scope, $http) {
     addMarker(event.latLng);
   });
 
-  document.getElementById('saveMap').addEventListener('click', saveMarkers);
-
   function addMarker(location) {
     var marker = new google.maps.Marker({
       position: location,
@@ -52,7 +58,9 @@ app.controller('MapController', function($scope, $http) {
     markers.push({
       latitude: location.lat().toString(),
       longitude: location.lng().toString(),
-      sequence: labelNumber
+      sequence: labelNumber,
+      comment: "",
+      rating: 0
     })
     labelNumber = labelNumber + 1;
 
@@ -99,7 +107,28 @@ app.controller('MapController', function($scope, $http) {
     }
   }
 
-  function saveMarkers() {
+  $scope.openCommentSection = function () {
+    // code here to avoid map clicking
+    $scope.showCommentSection = true;
+  }
+
+  function addCommentsToMarkers() {
+    for (var marker in markers) {
+      var order = markers[marker].sequence;
+      markers[marker].comment = $scope.comments[order -1];
+    }
+  }
+
+  function addRatingsToMarkers() {
+    for (var marker in markers) {
+      var order = markers[marker].sequence;
+      markers[marker].rating = $scope.ratings[order -1];
+    }
+  }
+
+  $scope.saveTravel = function() {
+    addCommentsToMarkers();
+    addRatingsToMarkers();
     $http({
       method: "POST",
       url: "travels",
@@ -108,16 +137,6 @@ app.controller('MapController', function($scope, $http) {
         'Content-Type': 'application/json'
       }
     })
-    openTravelCommentSection();
-    //$scope.travelTitle = "";
-    //removeAllMarkersFromMap();
-    //markers = [];
-    //$scope.mapMarkers = [];
-
-  }
-
-  function openTravelCommentSection() {
-    $scope.showCommentSection = true;
   }
 
   function handleLocationError(browserHasGeolocation, infoWindow, pos) {
