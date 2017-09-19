@@ -5,17 +5,38 @@ app.controller('MapController', function($scope, $http) {
   var labelNumber = 1;
   var labelIndex = 0;
   var markers = [];
+  $scope.alerts = [];
   $scope.mapMarkers = [];
   $scope.travelTitle = "";
   $scope.showCommentSection = false;
   $scope.comments = [];
   $scope.ratings = [];
-  $scope.isReadonly = false;
+  $scope.isTitleComplete = false;
+  $scope.isMapMarked = false;
 
   $scope.hoveringOver = function(value) {
     $scope.overStar = value;
     $scope.percent = 100 * (value / $scope.max);
   };
+
+  $scope.addAlert = function (type, msg) {
+    $scope.alerts.push({
+      "type": type,
+      "msg": msg
+    });
+  };
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  }
+
+  document.getElementById("title").addEventListener("input", isValidTitle);
+
+  function isValidTitle() {
+    $scope.isTitleComplete = $scope.travelTitle != "undefined";
+    $scope.$apply();
+    return $scope.isTitleComplete;
+  }
 
   $scope.map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -44,6 +65,10 @@ app.controller('MapController', function($scope, $http) {
   
   google.maps.event.addListener($scope.map, 'click', function(event) {
     addMarker(event.latLng);
+    if($scope.mapMarkers.length > 0) {
+      $scope.isMapMarked = true;
+      $scope.$apply();
+    }
   });
 
   function addMarker(location) {
@@ -129,14 +154,19 @@ app.controller('MapController', function($scope, $http) {
   $scope.saveTravel = function() {
     addCommentsToMarkers();
     addRatingsToMarkers();
-    $http({
-      method: "POST",
-      url: "travels",
-      data: {user: "pepe", title: $scope.travelTitle, coordinates: markers},
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    if(($scope.travelTitle != "" && $scope.isTitleComplete) && $scope.mapMarkers.length > 0) {
+      $http({
+        method: "POST",
+        url: "travels",
+        data: {user: "pepe", title: $scope.travelTitle, coordinates: markers},
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      $scope.addAlert('success', 'Viaje guardado!');
+    } else {
+      $scope.addAlert('danger', 'Tu viaje no se guardo, por favor completa todos los campos');
+    }
   }
 
   function handleLocationError(browserHasGeolocation, infoWindow, pos) {

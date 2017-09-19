@@ -32,3 +32,11 @@ h2, h4 {
 .input-group-addon {
   text-align: left;
 }
+
+.alert {
+    width: 25%;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 1;
+}
