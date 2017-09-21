@@ -40,8 +40,8 @@ app.controller('MapController', function($scope, $http) {
 
   $scope.map = new google.maps.Map(document.getElementById('map'), {
     center: {
-      lat: 34.397,
-      lng: 150.644
+      lat: -29.1307436,
+      lng: -66.5295777
     },
     zoom: 6
   });
@@ -56,20 +56,23 @@ app.controller('MapController', function($scope, $http) {
 
       $scope.map.setCenter(pos);
     }, function() {
-      handleLocationError(true, infoWindow, $scope.map.getCenter());
+      $scope.addAlert('danger', 'OOOOPS! Hubo un problema con la Geolocalizacion');
+      $scope.map.setCenter(center);
     });
   } else {
-    handleLocationError(false, infoWindow, $scope.map.getCenter());
+    $scope.addAlert('warning', 'Tu browser no soporta Geolocalizacion');
   }
 
-  
   google.maps.event.addListener($scope.map, 'click', function(event) {
-    addMarker(event.latLng);
-    if($scope.mapMarkers.length > 0) {
-      $scope.isMapMarked = true;
-      $scope.$apply();
-    }
+      if(! $scope.showCommentSection) {
+        addMarker(event.latLng);
+        if($scope.mapMarkers.length > 0) {
+          $scope.isMapMarked = true;
+          $scope.$apply();
+        }
+      }
   });
+
 
   function addMarker(location) {
     var marker = new google.maps.Marker({
@@ -90,22 +93,29 @@ app.controller('MapController', function($scope, $http) {
     labelNumber = labelNumber + 1;
 
     google.maps.event.addListener(marker, 'click', function(event) {
-      var markerSequence = marker.sequence;
-      marker.setMap(null);
-      markers = [];
-      arrangeMapMarkersSequence(markerSequence);
-      labelNumber = 1;
-      refreshMarkersInMap(markerSequence);
+      if(! $scope.showCommentSection) {
+        var markerSequence = marker.sequence;
+        marker.setMap(null);
+        markers = [];
+        arrangeMapMarkersSequence(markerSequence);
+        labelNumber = 1;
+        refreshMarkersInMap(markerSequence);
+      }
     });
 
     google.maps.event.addListener(marker, 'dragend', function(event) {
-      markers.map(function(mark) {
-        if(mark.sequence === marker.sequence) {
-          mark.latitude = marker.position.lat().toString();
-          mark.longitude = marker.position.lng().toString();
-        }
-      });
+      if(! $scope.showCommentSection) {
+        markers.map(function(mark) {
+          if(mark.sequence === marker.sequence) {
+            mark.latitude = marker.position.lat().toString();
+            mark.longitude = marker.position.lng().toString();
+          }
+        });
+      } else {
+        marker.draggable = false;
+      }
     });
+
   }
 
   function arrangeMapMarkersSequence(sequenceNumber) {
@@ -133,7 +143,6 @@ app.controller('MapController', function($scope, $http) {
   }
 
   $scope.openCommentSection = function () {
-    // code here to avoid map clicking
     $scope.showCommentSection = true;
   }
 
@@ -151,6 +160,14 @@ app.controller('MapController', function($scope, $http) {
     }
   }
 
+  $scope.clearPage = function () {
+    removeAllMarkersFromMap();
+    $scope.travelTitle = "";
+    $scope.showCommentSection = false;
+    $scope.comments = [];
+    $scope.ratings = [];
+  }
+
   $scope.saveTravel = function() {
     addCommentsToMarkers();
     addRatingsToMarkers();
@@ -164,17 +181,11 @@ app.controller('MapController', function($scope, $http) {
         }
       })
       $scope.addAlert('success', 'Viaje guardado!');
+      $scope.clearPage();
+      location.reload();
     } else {
       $scope.addAlert('danger', 'Tu viaje no se guardo, por favor completa todos los campos');
     }
-  }
-
-  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-      'Error: The Geolocation service failed.' :
-      'Error: Your browser does not support geolocation.');
-    infoWindow.open($scope.map);
   }
 
 });
