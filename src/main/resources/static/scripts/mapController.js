@@ -4,7 +4,7 @@ app.controller('MapController', function($scope, $http) {
   var infoWindow;
   var labelNumber = 1;
   var labelIndex = 0;
-  var markers = [];
+  var markrs = [];
   $scope.alerts = [];
   $scope.mapMarkers = [];
   $scope.travelTitle = "";
@@ -83,7 +83,7 @@ app.controller('MapController', function($scope, $http) {
       sequence: labelNumber
     });
     $scope.mapMarkers.push(marker);
-    markers.push({
+    markrs.push({
       latitude: location.lat().toString(),
       longitude: location.lng().toString(),
       sequence: labelNumber,
@@ -96,7 +96,7 @@ app.controller('MapController', function($scope, $http) {
       if(! $scope.showCommentSection) {
         var markerSequence = marker.sequence;
         marker.setMap(null);
-        markers = [];
+        markrs = [];
         arrangeMapMarkersSequence(markerSequence);
         labelNumber = 1;
         refreshMarkersInMap(markerSequence);
@@ -105,7 +105,7 @@ app.controller('MapController', function($scope, $http) {
 
     google.maps.event.addListener(marker, 'dragend', function(event) {
       if(! $scope.showCommentSection) {
-        markers.map(function(mark) {
+        markrs.map(function(mark) {
           if(mark.sequence === marker.sequence) {
             mark.latitude = marker.position.lat().toString();
             mark.longitude = marker.position.lng().toString();
@@ -147,16 +147,16 @@ app.controller('MapController', function($scope, $http) {
   }
 
   function addCommentsToMarkers() {
-    for (var marker in markers) {
-      var order = markers[marker].sequence;
-      markers[marker].comment = $scope.comments[order -1];
+    for (var marker in markrs) {
+      var order = markrs[marker].sequence;
+      markrs[marker].comment = $scope.comments[order -1];
     }
   }
 
   function addRatingsToMarkers() {
-    for (var marker in markers) {
-      var order = markers[marker].sequence;
-      markers[marker].rating = $scope.ratings[order -1];
+    for (var marker in markrs) {
+      var order = markrs[marker].sequence;
+      markrs[marker].rating = $scope.ratings[order -1];
     }
   }
 
@@ -175,7 +175,7 @@ app.controller('MapController', function($scope, $http) {
       $http({
         method: "POST",
         url: "travels",
-        data: {user: "pepe", title: $scope.travelTitle, coordinates: markers},
+        data: {user: "pepe", title: $scope.travelTitle, markers: markrs},
         headers: {
           'Content-Type': 'application/json'
         }

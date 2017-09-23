@@ -20,12 +20,12 @@ public class Travel implements Serializable {
     private String title;
 
     @ElementCollection
-    @JoinTable(name="travel_coordinates" , joinColumns=@JoinColumn(name="travel_id"))
-    private List<Coordinate> placesVisited = new ArrayList<>();
+    @JoinTable(name="travel_markers" , joinColumns=@JoinColumn(name="travel_id"))
+    private List<Marker> placesVisited = new ArrayList<>();
 
     public Travel () {}
 
-    public Travel(String aUser, String aTitle, List<Coordinate> places) {
+    public Travel(String aUser, String aTitle, List<Marker> places) {
         user = aUser;
         title = aTitle;
         placesVisited = places;
@@ -59,11 +59,11 @@ public class Travel implements Serializable {
         this.user = user;
     }
 
-    public List<Coordinate> getPlacesVisited() {
+    public List<Marker> getPlacesVisited() {
         return placesVisited;
     }
 
-    public void setPlacesVisited(List<Coordinate> placesVisited) {
+    public void setPlacesVisited(List<Marker> placesVisited) {
         this.placesVisited = placesVisited;
     }
 }

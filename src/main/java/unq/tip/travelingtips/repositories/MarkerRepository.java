@@ -1,10 +1,10 @@
 package unq.tip.travelingtips.repositories;
 
 import org.springframework.data.repository.CrudRepository;
-import unq.tip.travelingtips.model.Coordinate;
+import unq.tip.travelingtips.model.Marker;
 
 import javax.transaction.Transactional;
 
 @Transactional
-public interface CoordinateRepository extends CrudRepository<Coordinate, Long> {
+public interface MarkerRepository extends CrudRepository<Marker, Long> {
 }

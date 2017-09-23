@@ -18,7 +18,7 @@ public class TravelController {
     @RequestMapping(value = "/travels", consumes = "application/json", method = RequestMethod.POST)
     public ResponseEntity<String> saveMarkedTravel(@RequestBody TravelPojo data) {
         if(data != null) {
-            travelService.saveTravel(data.getUser(), data.getTitle(), data.getCoordinates());
+            travelService.saveTravel(data);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
