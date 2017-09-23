@@ -1,6 +1,6 @@
 package unq.tip.travelingtips.controllers;
 
-import unq.tip.travelingtips.model.Coordinate;
+import unq.tip.travelingtips.model.Marker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ public class TravelPojo {
 
     private String title;
 
-    private List<Coordinate> coordinates = new ArrayList<>();
+    private List<Marker> markers = new ArrayList<>();
 
     public String getUser() {
         return user;
@@ -29,11 +29,11 @@ public class TravelPojo {
         this.title = title;
     }
 
-    public List<Coordinate> getCoordinates() {
-        return coordinates;
+    public List<Marker> getMarkers() {
+        return markers;
     }
 
-    public void setCoordinates(List<Coordinate> coordinates) {
-        this.coordinates = coordinates;
+    public void setMarkers(List<Marker> markers) {
+        this.markers = markers;
     }
 }

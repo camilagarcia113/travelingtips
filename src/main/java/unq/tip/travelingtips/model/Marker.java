@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Embeddable
-public class Coordinate implements Serializable {
+public class Marker implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,8 +19,8 @@ public class Coordinate implements Serializable {
     private String comment;
     private Integer rating;
 
-    public Coordinate (String aLatitude, String aLongitude, Integer aSequence,
-                       String aComment, Integer aRating) {
+    public Marker(String aLatitude, String aLongitude, Integer aSequence,
+                  String aComment, Integer aRating) {
         sequence = aSequence;
         latitude = aLatitude;
         longitude = aLongitude;
@@ -28,7 +28,7 @@ public class Coordinate implements Serializable {
         rating = aRating;
     }
 
-    public Coordinate() {}
+    public Marker() {}
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

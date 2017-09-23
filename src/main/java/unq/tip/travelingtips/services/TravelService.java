@@ -2,9 +2,10 @@ package unq.tip.travelingtips.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import unq.tip.travelingtips.model.Coordinate;
+import unq.tip.travelingtips.controllers.TravelPojo;
+import unq.tip.travelingtips.model.Marker;
 import unq.tip.travelingtips.model.Travel;
-import unq.tip.travelingtips.repositories.CoordinateRepository;
+import unq.tip.travelingtips.repositories.MarkerRepository;
 import unq.tip.travelingtips.repositories.TravelRepository;
 
 import java.util.List;
@@ -16,11 +17,12 @@ public class TravelService {
     private TravelRepository travelRepository;
 
     @Autowired
-    private CoordinateRepository coordinateRepository;
+    private MarkerRepository markerRepository;
 
-    public void saveTravel(String user, String title, List<Coordinate> coordinates) {
-        coordinateRepository.save(coordinates);
-        Travel travel = new Travel(user, title, coordinates);
-        travelRepository.save(travel);
+    public void saveTravel(TravelPojo travel) {
+        List<Marker> markers = travel.getMarkers();
+        markerRepository.save(markers);
+        Travel newTravel = new Travel(travel.getUser(), travel.getTitle(), markers);
+        travelRepository.save(newTravel);
     }
 }
