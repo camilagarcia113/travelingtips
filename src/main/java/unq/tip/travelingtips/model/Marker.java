@@ -13,6 +13,10 @@ public class Marker implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "travel_id", referencedColumnName = "ID")
+    private Travel travel;
+
     private String latitude;
     private String longitude;
     private Integer sequence;
@@ -80,5 +84,13 @@ public class Marker implements Serializable {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public Travel getTravel() {
+        return travel;
+    }
+
+    public void setTravel(Travel travel) {
+        this.travel = travel;
     }
 }

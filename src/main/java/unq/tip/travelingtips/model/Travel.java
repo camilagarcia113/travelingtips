@@ -1,8 +1,10 @@
 package unq.tip.travelingtips.model;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,11 +21,16 @@ public class Travel implements Serializable {
 
     private String title;
 
-    @ElementCollection
-    @JoinTable(name="travel_markers" , joinColumns=@JoinColumn(name="travel_id"))
-    private List<Marker> placesVisited = new ArrayList<>();
+    @OneToMany(mappedBy = "travel", orphanRemoval = true)
+    @Cascade({CascadeType.ALL})
+    private List<Marker> placesVisited;
 
     public Travel () {}
+
+    public Travel(String aUser, String aTitle) {
+        user = aUser;
+        title = aTitle;
+    }
 
     public Travel(String aUser, String aTitle, List<Marker> places) {
         user = aUser;

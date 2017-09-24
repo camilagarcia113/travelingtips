@@ -21,8 +21,8 @@ public class TravelService {
 
     public void saveTravel(TravelPojo travel) {
         List<Marker> markers = travel.getMarkers();
-        markerRepository.save(markers);
-        Travel newTravel = new Travel(travel.getUser(), travel.getTitle(), markers);
+        Travel newTravel = new Travel(travel.getUser(), travel.getTitle());
+        newTravel.setPlacesVisited(markers);
         travelRepository.save(newTravel);
     }
 }
