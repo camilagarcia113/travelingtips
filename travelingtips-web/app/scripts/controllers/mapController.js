@@ -1,4 +1,5 @@
-var app = angular.module('travelingTips', ['ui.bootstrap']);
+'use strict';
+
 app.controller('MapController', function($scope, $http) {
 
   var infoWindow;
@@ -174,7 +175,7 @@ app.controller('MapController', function($scope, $http) {
     if(($scope.travelTitle != "" && $scope.isTitleComplete) && $scope.mapMarkers.length > 0) {
       $http({
         method: "POST",
-        url: "travels",
+        url: "/travels",
         data: {user: "pepe", title: $scope.travelTitle, markers: markrs},
         headers: {
           'Content-Type': 'application/json'

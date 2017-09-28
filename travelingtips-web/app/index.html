@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>TravelingTips</title>
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body ng-app="travelingtipsWebApp">
+
+  <a ui-sref="home"><button type="button" class="btn btn-default">Home</button></a>
+  <a ui-sref="createMap"><button type="button" class="btn btn-default">Create Map</button></a>
+
+  <ui-view></ui-view>
+
+
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEFSPKU4x3OT2MRQsjm5v2Bp7bwo1YQpI"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+  <script src="scripts/app.js"></script>
+  <script src="scripts/controllers/mapController.js"></script>
+
+</body>
+</html>
