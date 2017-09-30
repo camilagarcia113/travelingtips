@@ -27,5 +27,4 @@ nbdist/
 mvnw
 mvnw.cmd
 
-node_modules/
 npm-debug.log

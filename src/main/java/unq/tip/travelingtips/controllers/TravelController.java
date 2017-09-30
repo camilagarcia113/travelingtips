@@ -27,10 +27,8 @@ public class TravelController {
         }
     }
 
-    // /travels?user=pepe
     @RequestMapping("/travels")
-    public @ResponseBody List<Travel> getTravels(@RequestParam(value="user", required=true) String userId, Model model) {
-        model.addAttribute("user", userId);
+    public @ResponseBody List<Travel> getTravels(@RequestParam(value="user", required=true) String userId) {
         return travelService.getTravelsFromUser(userId);
     }
 
