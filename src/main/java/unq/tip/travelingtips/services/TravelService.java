@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import unq.tip.travelingtips.controllers.TravelPojo;
 import unq.tip.travelingtips.model.Marker;
 import unq.tip.travelingtips.model.Travel;
-import unq.tip.travelingtips.repositories.MarkerRepository;
 import unq.tip.travelingtips.repositories.TravelRepository;
 
 import java.util.List;
@@ -16,13 +15,12 @@ public class TravelService {
     @Autowired
     private TravelRepository travelRepository;
 
-    @Autowired
-    private MarkerRepository markerRepository;
-
     public void saveTravel(TravelPojo travel) {
-        List<Marker> markers = travel.getMarkers();
-        Travel newTravel = new Travel(travel.getUser(), travel.getTitle());
-        newTravel.setPlacesVisited(markers);
+        Travel newTravel = new Travel(travel.getUser(), travel.getTitle(), travel.getMarkers());
         travelRepository.save(newTravel);
+    }
+
+    public List<Travel> getTravelsFromUser(String user) {
+        return travelRepository.findByUser(user);
     }
 }

@@ -1,6 +1,7 @@
 package unq.tip.travelingtips.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -11,11 +12,7 @@ public class Marker implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "travel_id", referencedColumnName = "ID")
-    private Travel travel;
+    private Long id;
 
     private String latitude;
     private String longitude;
@@ -38,11 +35,11 @@ public class Marker implements Serializable {
         return serialVersionUID;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -86,11 +83,4 @@ public class Marker implements Serializable {
         this.rating = rating;
     }
 
-    public Travel getTravel() {
-        return travel;
-    }
-
-    public void setTravel(Travel travel) {
-        this.travel = travel;
-    }
 }

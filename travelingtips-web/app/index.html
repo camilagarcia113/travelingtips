@@ -8,23 +8,50 @@
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/styles.css">
 </head>
+
 <body ng-app="travelingtipsWebApp">
 
-  <a ui-sref="home"><button type="button" class="btn btn-default">Home</button></a>
-  <a ui-sref="createMap"><button type="button" class="btn btn-default">Create Map</button></a>
+  <header class="header-basic">
+    <div class="header-limiter">
+      <h1><a ui-sref="home"><img src="images/travelingtipslogo.png" class="headerLogo">TravelingTips</a></h1>
+      <nav>
+        <a ui-sref="home"><button type="button" class="home btn btn-default"><span class="glyphicon glyphicon-home"></span></button></a>
+        <a ui-sref="userProfile"><button type="button" class="profile btn btn-default"><span class="glyphicon glyphicon-user"></span></button></a>
+        <a href="#" onclick="signOut();">Sign out</a>
+      </nav>
+    </div>
+  </header>
+
+  <div ng-controller="SignInController">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+          <div class="well well-lg">
+            <h1><img src="images/travelingtipslogo.png" class="headerLogo">TravelingTips</h1>
+            <br>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <ui-view></ui-view>
-
 
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEFSPKU4x3OT2MRQsjm5v2Bp7bwo1YQpI"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="651529495097-bjb8t0m8s301h99nlic7j8movu1i0cns.apps.googleusercontent.com">
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 
   <script src="scripts/app.js"></script>
+  <script src="scripts/services/userService.js"></script>
   <script src="scripts/controllers/mapController.js"></script>
-
+  <script src="scripts/controllers/userController.js"></script>
+  <script src="scripts/controllers/signInController.js"></script>
+  
 </body>
 </html>

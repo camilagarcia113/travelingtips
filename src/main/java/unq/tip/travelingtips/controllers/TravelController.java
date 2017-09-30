@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import unq.tip.travelingtips.model.Travel;
 import unq.tip.travelingtips.services.TravelService;
+
+import javax.xml.ws.Response;
+import java.util.List;
 
 @Controller
 public class TravelController {
@@ -24,4 +27,13 @@ public class TravelController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
+    // /travels?user=pepe
+    @RequestMapping("/travelss")
+    public @ResponseBody List<Travel> getTravels(@RequestParam(value="user", required=true) String userId, Model model) {
+        model.addAttribute("user", userId);
+        return travelService.getTravelsFromUser(userId);
+    }
+
+
 }

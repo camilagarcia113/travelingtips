@@ -1,9 +1,7 @@
 package unq.tip.travelingtips.model;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,22 +13,16 @@ public class Travel implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String user;
 
     private String title;
 
-    @OneToMany(mappedBy = "travel", orphanRemoval = true)
-    @Cascade({CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Marker> placesVisited;
 
     public Travel () {}
-
-    public Travel(String aUser, String aTitle) {
-        user = aUser;
-        title = aTitle;
-    }
 
     public Travel(String aUser, String aTitle, List<Marker> places) {
         user = aUser;
@@ -42,11 +34,11 @@ public class Travel implements Serializable {
         return serialVersionUID;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
