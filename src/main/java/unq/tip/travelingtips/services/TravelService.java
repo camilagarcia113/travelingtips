@@ -3,7 +3,6 @@ package unq.tip.travelingtips.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unq.tip.travelingtips.controllers.TravelPojo;
-import unq.tip.travelingtips.model.Marker;
 import unq.tip.travelingtips.model.Travel;
 import unq.tip.travelingtips.repositories.TravelRepository;
 
@@ -22,5 +21,9 @@ public class TravelService {
 
     public List<Travel> getTravelsFromUser(String user) {
         return travelRepository.findByUser(user);
+    }
+
+    public void deleteTravel(String userId, String travelTitle) {
+        travelRepository.deleteByUserAndTitle(userId, travelTitle);
     }
 }

@@ -1,7 +1,6 @@
 package unq.tip.travelingtips.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity

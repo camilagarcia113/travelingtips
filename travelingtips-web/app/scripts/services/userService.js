@@ -20,11 +20,10 @@ app.service('userService', function() {
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  //sessionStorage.setItem('user', JSON.stringify(profile));
-  sessionStorage.setItem('userID', profile.getId()); // Do not send to your backend! Use an ID token instead.
+  sessionStorage.setItem('userID', profile.getId());
   sessionStorage.setItem('userName', profile.getName());
   sessionStorage.setItem('userImgURL', profile.getImageUrl());
-  sessionStorage.setItem('userEmail', profile.getEmail()); // This is null if the 'email' scope is not present.
+  sessionStorage.setItem('userEmail', profile.getEmail());
 }
 
 function signOut() {

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import unq.tip.travelingtips.model.Travel;
 import unq.tip.travelingtips.services.TravelService;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 @Controller
@@ -29,10 +28,16 @@ public class TravelController {
     }
 
     // /travels?user=pepe
-    @RequestMapping("/travelss")
+    @RequestMapping("/travels")
     public @ResponseBody List<Travel> getTravels(@RequestParam(value="user", required=true) String userId, Model model) {
         model.addAttribute("user", userId);
         return travelService.getTravelsFromUser(userId);
+    }
+
+    @RequestMapping(value = "/deleteTravel", method = RequestMethod.POST)
+    public @ResponseBody void deleteTravel(@RequestParam(value="user", required=true) String userId,
+                             @RequestParam(value="title", required=true) String travelTitle) {
+        travelService.deleteTravel(userId, travelTitle);
     }
 
 

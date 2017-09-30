@@ -4,11 +4,6 @@
     <div class="row">
         <div ng-controller="MapController">
 
-            <script type="text/ng-template" id="alert.html">
-                <div ng-transclude></div>
-            </script>
-            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)" dismiss-on-timeout="3000">{{alert.msg}}</div>
-
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">Marca por donde pasaste en el mapa y compartilo con otros!</div>
