@@ -2,7 +2,6 @@ package unq.tip.travelingtips.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,15 +12,14 @@ public class Travel implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String user;
 
     private String title;
 
-    @ElementCollection
-    @JoinTable(name="travel_markers" , joinColumns=@JoinColumn(name="travel_id"))
-    private List<Marker> placesVisited = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Marker> placesVisited;
 
     public Travel () {}
 
@@ -35,11 +33,11 @@ public class Travel implements Serializable {
         return serialVersionUID;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

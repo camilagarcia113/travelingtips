@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import unq.tip.travelingtips.model.Travel;
 import unq.tip.travelingtips.services.TravelService;
+
+import java.util.List;
 
 @Controller
 public class TravelController {
@@ -24,4 +26,17 @@ public class TravelController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
+    @RequestMapping("/travels")
+    public @ResponseBody List<Travel> getTravels(@RequestParam(value="user", required=true) String userId) {
+        return travelService.getTravelsFromUser(userId);
+    }
+
+    @RequestMapping(value = "/deleteTravel", method = RequestMethod.POST)
+    public @ResponseBody void deleteTravel(@RequestParam(value="user", required=true) String userId,
+                             @RequestParam(value="title", required=true) String travelTitle) {
+        travelService.deleteTravel(userId, travelTitle);
+    }
+
+
 }

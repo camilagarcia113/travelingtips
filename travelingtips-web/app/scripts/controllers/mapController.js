@@ -1,9 +1,8 @@
-var app = angular.module('travelingTips', ['ui.bootstrap']);
-app.controller('MapController', function($scope, $http) {
+'use strict';
 
-  var infoWindow;
+app.controller('MapController', function($scope, $http, userService) {
+
   var labelNumber = 1;
-  var labelIndex = 0;
   var markrs = [];
   $scope.alerts = [];
   $scope.mapMarkers = [];
@@ -13,6 +12,7 @@ app.controller('MapController', function($scope, $http) {
   $scope.ratings = [];
   $scope.isTitleComplete = false;
   $scope.isMapMarked = false;
+  $scope.isLogin = false;
 
   $scope.hoveringOver = function(value) {
     $scope.overStar = value;
@@ -28,15 +28,15 @@ app.controller('MapController', function($scope, $http) {
 
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
-  }
-
-  document.getElementById("title").addEventListener("input", isValidTitle);
+  };
 
   function isValidTitle() {
-    $scope.isTitleComplete = $scope.travelTitle != "undefined";
+    $scope.isTitleComplete = $scope.travelTitle !== "undefined";
     $scope.$apply();
     return $scope.isTitleComplete;
   }
+
+  document.getElementById("title").addEventListener("input", isValidTitle);
 
   $scope.map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -45,7 +45,6 @@ app.controller('MapController', function($scope, $http) {
     },
     zoom: 6
   });
-  infoWindow = new google.maps.InfoWindow;
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -89,7 +88,7 @@ app.controller('MapController', function($scope, $http) {
       sequence: labelNumber,
       comment: "",
       rating: 0
-    })
+    });
     labelNumber = labelNumber + 1;
 
     google.maps.event.addListener(marker, 'click', function(event) {
@@ -124,7 +123,7 @@ app.controller('MapController', function($scope, $http) {
       if ($scope.mapMarkers[marker].label > sequenceNumber) {
         $scope.mapMarkers[marker].label -= 1;
       }
-    };
+    }
   }
 
   function refreshMarkersInMap() {
@@ -144,7 +143,7 @@ app.controller('MapController', function($scope, $http) {
 
   $scope.openCommentSection = function () {
     $scope.showCommentSection = true;
-  }
+  };
 
   function addCommentsToMarkers() {
     for (var marker in markrs) {
@@ -166,26 +165,26 @@ app.controller('MapController', function($scope, $http) {
     $scope.showCommentSection = false;
     $scope.comments = [];
     $scope.ratings = [];
-  }
+  };
 
   $scope.saveTravel = function() {
     addCommentsToMarkers();
     addRatingsToMarkers();
-    if(($scope.travelTitle != "" && $scope.isTitleComplete) && $scope.mapMarkers.length > 0) {
+    if(($scope.travelTitle !== "" && $scope.isTitleComplete) && $scope.mapMarkers.length > 0) {
       $http({
         method: "POST",
-        url: "travels",
-        data: {user: "pepe", title: $scope.travelTitle, markers: markrs},
+        url: "http://localhost:8080/travels",
+        data: {user: userService.getID(), title: $scope.travelTitle, markers: markrs},
         headers: {
           'Content-Type': 'application/json'
         }
-      })
+      });
       $scope.addAlert('success', 'Viaje guardado!');
       $scope.clearPage();
       location.reload();
     } else {
       $scope.addAlert('danger', 'Tu viaje no se guardo, por favor completa todos los campos');
     }
-  }
+  };
 
 });
