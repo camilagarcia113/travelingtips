@@ -1,15 +1,27 @@
-app.service('alertsService', function() {
+app.service('alertService', function($rootScope) {
 
-  var alerts = [];
+  $rootScope.alerts = [];
 
-  this.addAlert = function (type, msg) {
-    alerts.push({
+  var addAlert = function (type, msg) {
+    $rootScope.alerts.push({
       "type": type,
       "msg": msg
     });
   };
 
-  this.closeAlert = function(index) {
-    alerts.splice(index, 1);
+  $rootScope.closeAlert = function(index) {
+    $rootScope.alerts.splice(index, 1);
   };
+
+  this.showDangerAlert = function(message) {
+    addAlert('danger', message);
+  }
+
+  this.showWarningAlert = function(message) {
+    addAlert('warning', message);
+  }
+
+  this.showSuccessAlert = function(message) {
+    addAlert('success', message);
+  }    
 });

@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('MapController', function($scope, $http, userService) {
+app.controller('MapController', function($scope, $http, travelService, userService, alertService, $rootScope, $state) {
 
   var labelNumber = 1;
   var markrs = [];
-  $scope.alerts = [];
   $scope.mapMarkers = [];
   $scope.travelTitle = "";
+  $scope.travelSummary = "";
   $scope.showCommentSection = false;
   $scope.comments = [];
   $scope.ratings = [];
@@ -17,17 +17,6 @@ app.controller('MapController', function($scope, $http, userService) {
   $scope.hoveringOver = function(value) {
     $scope.overStar = value;
     $scope.percent = 100 * (value / $scope.max);
-  };
-
-  $scope.addAlert = function (type, msg) {
-    $scope.alerts.push({
-      "type": type,
-      "msg": msg
-    });
-  };
-
-  $scope.closeAlert = function(index) {
-    $scope.alerts.splice(index, 1);
   };
 
   function isValidTitle() {
@@ -46,6 +35,28 @@ app.controller('MapController', function($scope, $http, userService) {
     zoom: 6
   });
 
+  var input = (document.getElementById('pac-input'));
+  $scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.bindTo('bounds', $scope.map);
+
+  autocomplete.addListener('place_changed', function() {
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      alertService.showDangerAlert('Ingresa un lugar valido');
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      $scope.map.fitBounds(place.geometry.viewport);
+    } else {
+      $scope.map.setCenter(place.geometry.location);
+      $scope.map.setZoom(6);
+    }
+  });
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = {
@@ -55,11 +66,11 @@ app.controller('MapController', function($scope, $http, userService) {
 
       $scope.map.setCenter(pos);
     }, function() {
-      $scope.addAlert('danger', 'OOOOPS! Hubo un problema con la Geolocalizacion');
+      alertService.showDangerAlert('OOOOPS! Hubo un problema con la Geolocalizacion');
       $scope.map.setCenter(center);
     });
   } else {
-    $scope.addAlert('warning', 'Tu browser no soporta Geolocalizacion');
+    alertService.showWarningAlert('Tu browser no soporta Geolocalizacion');
   }
 
   google.maps.event.addListener($scope.map, 'click', function(event) {
@@ -71,7 +82,6 @@ app.controller('MapController', function($scope, $http, userService) {
         }
       }
   });
-
 
   function addMarker(location) {
     var marker = new google.maps.Marker({
@@ -162,6 +172,7 @@ app.controller('MapController', function($scope, $http, userService) {
   $scope.clearPage = function () {
     removeAllMarkersFromMap();
     $scope.travelTitle = "";
+    $scope.travelSummary = "";
     $scope.showCommentSection = false;
     $scope.comments = [];
     $scope.ratings = [];
@@ -174,17 +185,38 @@ app.controller('MapController', function($scope, $http, userService) {
       $http({
         method: "POST",
         url: "http://localhost:8080/travels",
-        data: {user: userService.getID(), title: $scope.travelTitle, markers: markrs},
+        data: {
+          user: userService.getID(),
+          title: $scope.travelTitle,
+          summary: $scope.travelSummary,
+          markers: markrs
+        },
         headers: {
           'Content-Type': 'application/json'
         }
+      }).then(function(result) {
+        alertService.showSuccessAlert('Viaje guardado!');
       });
-      $scope.addAlert('success', 'Viaje guardado!');
       $scope.clearPage();
-      location.reload();
+      $state.go('home');
     } else {
-      $scope.addAlert('danger', 'Tu viaje no se guardo, por favor completa todos los campos');
+      alertService.showDangerAlert('Tu viaje no se guardo, por favor completa todos los campos');
     }
   };
+
+  ////////////////////////////////////////////////////////////////////
+  /*if($rootScope.editMapMode) {
+    console.log($rootScope.travel);
+    $scope.travelTitle = $rootScope.travel.title;
+    var markers = $rootScope.travel.placesVisited;
+    console.log($scope.travelTitle);
+    var pos = {
+        lat: parseInt(markers[0].latitude),
+        lng: parseInt(markers[0].longitude)
+    };
+    addMarker(pos);
+    $scope.$apply();
+    //$rootScope.editMapMode = false;
+  };*/
 
 });

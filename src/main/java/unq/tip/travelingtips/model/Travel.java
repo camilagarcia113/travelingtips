@@ -18,14 +18,17 @@ public class Travel implements Serializable {
 
     private String title;
 
+    private String summary;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Marker> placesVisited;
 
     public Travel () {}
 
-    public Travel(String aUser, String aTitle, List<Marker> places) {
+    public Travel(String aUser, String aTitle, String aSummary, List<Marker> places) {
         user = aUser;
         title = aTitle;
+        summary = aSummary;
         placesVisited = places;
     }
 
@@ -47,6 +50,14 @@ public class Travel implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public String getUser() {

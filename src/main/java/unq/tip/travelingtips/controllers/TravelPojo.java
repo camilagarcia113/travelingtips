@@ -11,6 +11,8 @@ public class TravelPojo {
 
     private String title;
 
+    private String summary;
+
     private List<Marker> markers = new ArrayList<>();
 
     public String getUser() {
@@ -27,6 +29,14 @@ public class TravelPojo {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public List<Marker> getMarkers() {
