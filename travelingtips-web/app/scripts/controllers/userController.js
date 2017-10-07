@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('UserController', function($scope, $http, userService, alertService, travelService, $rootScope, $state) {
+app.controller('UserController', function($scope, $http, userService, alertService, $state, viewMapService) {
 
   $scope.isOwnerOfProfile = true;
   $scope.userName = userService.getName();
@@ -31,16 +31,9 @@ app.controller('UserController', function($scope, $http, userService, alertServi
     });
   }
 
-  $scope.getTravel = function(travelTitle) {
-    $http({
-      method: 'GET',
-      url: 'http://localhost:8080/travel?user=' + $scope.userID + '&title=' + travelTitle
-    }).then(function(result) {
-      $rootScope.travel = result.data;
-      $rootScope.editMapMode = true;
-      //$state.go('editTravel');
-      console.log($rootScope.travel);
-    });
+  $scope.viewTravel = function(travelTitle) {
+    viewMapService.getTravel(travelTitle, $scope.userID);
+    $state.go('viewTravel');
   }
 
   getUserTravels();

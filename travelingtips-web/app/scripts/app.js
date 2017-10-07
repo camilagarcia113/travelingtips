@@ -22,15 +22,21 @@ app.config(function($stateProvider) {
     templateUrl: 'views/editTravel.html'
   };
 
+  var viewTravelState = {
+    name: 'viewTravel',
+    url: '/viewTravel',
+    templateUrl: 'views/viewTravel.html'
+  };
+
   var userProfileState = {
     name: 'userProfile',
     url: '/userProfile',
     templateUrl: 'views/userProfile.html'
   };
 
-
   $stateProvider.state(homeState);
   $stateProvider.state(createMapState);
   $stateProvider.state(editTravelState);
+  $stateProvider.state(viewTravelState);
   $stateProvider.state(userProfileState);
 });
