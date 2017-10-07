@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>TravelingTips</title>
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body ng-app="travelingtipsWebApp">
+
+  <script type="text/ng-template" id="alert.html">
+    <div ng-transclude></div>
+  </script>
+  <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)" dismiss-on-timeout="3000">{{alert.msg}}</div>
+  
+  <div ng-controller="LoggedInController" ng-hide="isLoggedIn">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+          <div class="well well-lg">
+            <h1><img src="images/travelingtipslogo.png" class="headerLogo">TravelingTips</h1>
+            <br>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <ui-view></ui-view>
+
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEFSPKU4x3OT2MRQsjm5v2Bp7bwo1YQpI&libraries=places"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="651529495097-bjb8t0m8s301h99nlic7j8movu1i0cns.apps.googleusercontent.com">
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+  <script src="scripts/app.js"></script>
+  <script src="scripts/services/userService.js"></script>
+  <script src="scripts/services/alertService.js"></script>
+  <script src="scripts/services/travelService.js"></script>
+  <script src="scripts/services/mapActionService.js"></script>
+  <script src="scripts/services/viewMapService.js"></script>
+  <script src="scripts/controllers/mapController.js"></script>
+  <script src="scripts/controllers/viewMapController.js"></script>
+  <script src="scripts/controllers/userController.js"></script>
+  <script src="scripts/controllers/loggedInController.js"></script>
+
+</body>
+</html>

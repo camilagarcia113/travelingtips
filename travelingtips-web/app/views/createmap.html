@@ -1,0 +1,44 @@
+<div ng-include="'/views/header.html'"></div>
+
+<h4>Crea tu viaje:</h4>
+    <div class="row">
+        <div ng-controller="MapController">
+
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Marca por donde pasaste en el mapa y compartilo con otros!</div>
+                    <div class="panel-body">
+                        <input id="title" type="text" class="form-control inputText" placeholder="Titulo del viaje"
+                            ng-model="travelTitle">
+                        <textarea class="form-control" rows="2" id="travelSummary" placeholder="Escribi un resumen sobre tu viaje" ng-model="travelSummary" maxlength="100"></textarea>
+                        <input id="pac-input" class="controls" type="text" placeholder="Busca lugares para marcar"> 
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="panel panel-default" ng-show="showCommentSection">
+                    <div class="panel-heading">Contanos mas sobre tu viaje!</div>
+                    <div class="panel-body">
+                        <div ng-repeat="marker in mapMarkers">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-map-marker"></span>
+                                    {{marker.sequence}}
+                                </span>
+                                <span class="input-group-addon" uib-rating ng-model="comments[$index].rating" read-only="isReadonly" on-hover="hoveringOver(value)" aria-labelledby="default-rating"></span>
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="3" id="comment" maxlength="200"
+                            	ng-model="comments[$index].comment" placeholder="Escribi un comentario sobre el lugar!">
+                        	</textarea>
+                        </div>
+                    </div>
+                </div>
+                <button id="okMap" type="button" class="btn btn-default" ng-show="!showCommentSection" ng-click="openCommentSection()" ng-disabled="!(isTitleComplete && isMapMarked)">OK</button>
+                <button id="saveTravel" type="button" class="btn btn-default" ng-show="showCommentSection"
+                    ng-disabled="!(isTitleComplete && isMapMarked && (comments.length == mapMarkers.length))" ng-click="saveTravel()">Save</button>
+            </div>
+        </div>
+    </div>
