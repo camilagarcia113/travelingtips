@@ -15,7 +15,7 @@ public class TravelService {
     private TravelRepository travelRepository;
 
     public void saveTravel(TravelPojo travel) {
-        Travel newTravel = new Travel(travel.getUser(), travel.getTitle(), travel.getMarkers());
+        Travel newTravel = new Travel(travel.getUser(), travel.getTitle(), travel.getSummary(), travel.getMarkers());
         travelRepository.save(newTravel);
     }
 
@@ -25,5 +25,9 @@ public class TravelService {
 
     public void deleteTravel(String userId, String travelTitle) {
         travelRepository.deleteByUserAndTitle(userId, travelTitle);
+    }
+
+    public Travel getTravel(String user, String title) {
+        return travelRepository.findByUserAndTitle(user, title);
     }
 }

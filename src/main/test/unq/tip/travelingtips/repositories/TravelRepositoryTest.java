@@ -42,7 +42,7 @@ public class TravelRepositoryTest {
         placesTravel1.add(marker1);
         placesTravel1.add(marker2);
         placesTravel1.add(marker3);
-        travel1 = new Travel("Carlos", "My fabulous trip to NY", placesTravel1);
+        travel1 = new Travel("Carlos", "My fabulous trip to NY", "Summary", placesTravel1);
 
         Marker marker4 = new Marker("-32.1234", "-45.5678", 1, "Really good", 4);
         Marker marker5 = new Marker("-32.1234", "-45.5678", 2, "Really good", 4);
@@ -53,7 +53,7 @@ public class TravelRepositoryTest {
         placesTravel2.add(marker5);
         placesTravel2.add(marker6);
         placesTravel2.add(marker7);
-        travel2 = new Travel("Ricky", "Bolivia and Peru", placesTravel2);
+        travel2 = new Travel("Ricky", "Bolivia and Peru", "Summary", placesTravel2);
 
         entityManager.persist(travel1);
         entityManager.persist(travel2);
@@ -71,6 +71,7 @@ public class TravelRepositoryTest {
 
         assertEquals(2, foundTravels.size());
         assertEquals(travel1.getTitle(), foundTravels.get(0).getTitle());
+        assertEquals(travel1.getSummary(), foundTravels.get(0).getSummary());
         assertEquals(travel1.getUser(), foundTravels.get(0).getUser());
         assertEquals(travel1.getPlacesVisited().size(), foundTravels.get(0).getPlacesVisited().size());
 
@@ -84,6 +85,7 @@ public class TravelRepositoryTest {
         Travel foundTravel = travelRepository.findByUserAndTitle("Ricky", "Bolivia and Peru");
 
         assertEquals(travel2.getTitle(), foundTravel.getTitle());
+        assertEquals(travel2.getSummary(), foundTravel.getSummary());
         assertEquals(travel2.getUser(), foundTravel.getUser());
         assertEquals(travel2.getPlacesVisited().size(), foundTravel.getPlacesVisited().size());
 
@@ -96,7 +98,7 @@ public class TravelRepositoryTest {
         List<Marker> placesTravel3 = new ArrayList<>();
         placesTravel3.add(marker8);
         placesTravel3.add(marker9);
-        Travel travel3 = new Travel("Carlos", "Tandil", placesTravel3);
+        Travel travel3 = new Travel("Carlos", "Tandil", "Summary", placesTravel3);
 
         entityManager.persist(travel3);
 
@@ -104,6 +106,7 @@ public class TravelRepositoryTest {
 
         assertEquals(2, foundTravels.size());
         assertEquals(travel1.getTitle(), foundTravels.get(0).getTitle());
+        assertEquals(travel1.getSummary(), foundTravels.get(0).getSummary());
         assertEquals(travel1.getUser(), foundTravels.get(0).getUser());
         assertEquals(travel1.getPlacesVisited().size(), foundTravels.get(0).getPlacesVisited().size());
         assertEquals(travel3.getTitle(), foundTravels.get(1).getTitle());
@@ -120,6 +123,7 @@ public class TravelRepositoryTest {
         Travel foundTravel = travelRepository.findByUserAndTitle("Ricky", "Latinoamerica en 3 meses");
 
         assertEquals(travel2.getTitle(), foundTravel.getTitle());
+        assertEquals(travel2.getSummary(), foundTravel.getSummary());
         assertEquals(travel2.getUser(), foundTravel.getUser());
         assertEquals(travel2.getPlacesVisited().size(), foundTravel.getPlacesVisited().size());
     }

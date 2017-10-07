@@ -1,66 +1,54 @@
 'use strict';
 
-app.controller('MapController', function($scope, $http, userService) {
+app.controller('MapController', function($scope, $http, Travel, userService, alertService, mapAction, $rootScope, $state) {
 
   var labelNumber = 1;
-  var markrs = [];
-  $scope.alerts = [];
   $scope.mapMarkers = [];
-  $scope.travelTitle = "";
   $scope.showCommentSection = false;
   $scope.comments = [];
-  $scope.ratings = [];
   $scope.isTitleComplete = false;
   $scope.isMapMarked = false;
-  $scope.isLogin = false;
+  $scope.travelTitle = "";
+  $scope.travelSummary = "";
 
   $scope.hoveringOver = function(value) {
     $scope.overStar = value;
-    $scope.percent = 100 * (value / $scope.max);
-  };
-
-  $scope.addAlert = function (type, msg) {
-    $scope.alerts.push({
-      "type": type,
-      "msg": msg
-    });
-  };
-
-  $scope.closeAlert = function(index) {
-    $scope.alerts.splice(index, 1);
   };
 
   function isValidTitle() {
-    $scope.isTitleComplete = $scope.travelTitle !== "undefined";
+    $scope.isTitleComplete = Travel.getTitle() !== "undefined";
     $scope.$apply();
     return $scope.isTitleComplete;
   }
 
   document.getElementById("title").addEventListener("input", isValidTitle);
 
-  $scope.map = new google.maps.Map(document.getElementById('map'), {
-    center: {
-      lat: -29.1307436,
-      lng: -66.5295777
-    },
-    zoom: 6
+  $scope.map = mapAction.newMap('map');
+
+  var input = (document.getElementById('pac-input'));
+  $scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.bindTo('bounds', $scope.map);
+
+  autocomplete.addListener('place_changed', function() {
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      alertService.showDangerAlert('Ingresa un lugar valido');
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      $scope.map.fitBounds(place.geometry.viewport);
+    } else {
+      $scope.map.setCenter(place.geometry.location);
+      $scope.map.setZoom(6);
+    }
+    place = "";
   });
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-
-      $scope.map.setCenter(pos);
-    }, function() {
-      $scope.addAlert('danger', 'OOOOPS! Hubo un problema con la Geolocalizacion');
-      $scope.map.setCenter(center);
-    });
-  } else {
-    $scope.addAlert('warning', 'Tu browser no soporta Geolocalizacion');
-  }
+  mapAction.changeGeolocation($scope.map);
 
   google.maps.event.addListener($scope.map, 'click', function(event) {
       if(! $scope.showCommentSection) {
@@ -72,30 +60,16 @@ app.controller('MapController', function($scope, $http, userService) {
       }
   });
 
-
   function addMarker(location) {
-    var marker = new google.maps.Marker({
-      position: location,
-      label: labelNumber.toString(),
-      map: $scope.map,
-      draggable: true,
-      sequence: labelNumber
-    });
+    var marker = mapAction.drawMarker($scope.map, location, labelNumber);
     $scope.mapMarkers.push(marker);
-    markrs.push({
-      latitude: location.lat().toString(),
-      longitude: location.lng().toString(),
-      sequence: labelNumber,
-      comment: "",
-      rating: 0
-    });
+    Travel.addMarker(location, labelNumber);
     labelNumber = labelNumber + 1;
 
     google.maps.event.addListener(marker, 'click', function(event) {
       if(! $scope.showCommentSection) {
         var markerSequence = marker.sequence;
         marker.setMap(null);
-        markrs = [];
         arrangeMapMarkersSequence(markerSequence);
         labelNumber = 1;
         refreshMarkersInMap(markerSequence);
@@ -104,7 +78,7 @@ app.controller('MapController', function($scope, $http, userService) {
 
     google.maps.event.addListener(marker, 'dragend', function(event) {
       if(! $scope.showCommentSection) {
-        markrs.map(function(mark) {
+        Travel.markers.map(function(mark) {
           if(mark.sequence === marker.sequence) {
             mark.latitude = marker.position.lat().toString();
             mark.longitude = marker.position.lng().toString();
@@ -145,45 +119,29 @@ app.controller('MapController', function($scope, $http, userService) {
     $scope.showCommentSection = true;
   };
 
-  function addCommentsToMarkers() {
-    for (var marker in markrs) {
-      var order = markrs[marker].sequence;
-      markrs[marker].comment = $scope.comments[order -1];
-    }
-  }
-
-  function addRatingsToMarkers() {
-    for (var marker in markrs) {
-      var order = markrs[marker].sequence;
-      markrs[marker].rating = $scope.ratings[order -1];
-    }
-  }
-
-  $scope.clearPage = function () {
-    removeAllMarkersFromMap();
-    $scope.travelTitle = "";
-    $scope.showCommentSection = false;
-    $scope.comments = [];
-    $scope.ratings = [];
-  };
-
   $scope.saveTravel = function() {
-    addCommentsToMarkers();
-    addRatingsToMarkers();
-    if(($scope.travelTitle !== "" && $scope.isTitleComplete) && $scope.mapMarkers.length > 0) {
+    Travel.addCommentAndRating($scope.comments);
+    Travel.addTitle($scope.travelTitle);
+    Travel.addSummary($scope.travelSummary);
+    if(Travel.isValid()) {
       $http({
         method: "POST",
         url: "http://localhost:8080/travels",
-        data: {user: userService.getID(), title: $scope.travelTitle, markers: markrs},
+        data: {
+          user: userService.getID(),
+          title: Travel.getTitle(),
+          summary: Travel.getSummary(),
+          markers: Travel.getMarkers(),
+        },
         headers: {
           'Content-Type': 'application/json'
         }
+      }).then(function(result) {
+        alertService.showSuccessAlert('Viaje guardado!');
       });
-      $scope.addAlert('success', 'Viaje guardado!');
-      $scope.clearPage();
-      location.reload();
+      $state.go('home');
     } else {
-      $scope.addAlert('danger', 'Tu viaje no se guardo, por favor completa todos los campos');
+      alertService.showDangerAlert('Tu viaje no se guardo, por favor completa todos los campos');
     }
   };
 

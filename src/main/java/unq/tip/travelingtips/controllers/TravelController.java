@@ -18,18 +18,22 @@ public class TravelController {
     TravelService travelService;
 
     @RequestMapping(value = "/travels", consumes = "application/json", method = RequestMethod.POST)
-    public ResponseEntity<String> saveMarkedTravel(@RequestBody TravelPojo data) {
+    public @ResponseBody void saveMarkedTravel(@RequestBody TravelPojo data) {
         if(data != null) {
             travelService.saveTravel(data);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
     @RequestMapping("/travels")
     public @ResponseBody List<Travel> getTravels(@RequestParam(value="user", required=true) String userId) {
         return travelService.getTravelsFromUser(userId);
+    }
+
+
+    @RequestMapping("/travel")
+    public @ResponseBody Travel getTravel(@RequestParam(value="user", required=true) String userId,
+            @RequestParam(value="title", required=true) String travelTitle) {
+        return travelService.getTravel(userId, travelTitle);
     }
 
     @RequestMapping(value = "/deleteTravel", method = RequestMethod.POST)

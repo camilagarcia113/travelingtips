@@ -11,18 +11,12 @@
 
 <body ng-app="travelingtipsWebApp">
 
-  <header class="header-basic">
-    <div class="header-limiter">
-      <h1><a ui-sref="home"><img src="images/travelingtipslogo.png" class="headerLogo">TravelingTips</a></h1>
-      <nav>
-        <a ui-sref="home"><button type="button" class="home btn btn-default"><span class="glyphicon glyphicon-home"></span></button></a>
-        <a ui-sref="userProfile"><button type="button" class="profile btn btn-default"><span class="glyphicon glyphicon-user"></span></button></a>
-        <a href="#" onclick="signOut();">Sign out</a>
-      </nav>
-    </div>
-  </header>
-
-  <div ng-controller="SignInController">
+  <script type="text/ng-template" id="alert.html">
+    <div ng-transclude></div>
+  </script>
+  <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)" dismiss-on-timeout="3000">{{alert.msg}}</div>
+  
+  <div ng-controller="LoggedInController" ng-hide="isLoggedIn">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 col-lg-offset-3">
@@ -35,12 +29,12 @@
       </div>
     </div>
   </div>
-
+  
   <ui-view></ui-view>
 
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEFSPKU4x3OT2MRQsjm5v2Bp7bwo1YQpI"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEFSPKU4x3OT2MRQsjm5v2Bp7bwo1YQpI&libraries=places"></script>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <meta name="google-signin-client_id" content="651529495097-bjb8t0m8s301h99nlic7j8movu1i0cns.apps.googleusercontent.com">
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -50,8 +44,13 @@
   <script src="scripts/app.js"></script>
   <script src="scripts/services/userService.js"></script>
   <script src="scripts/services/alertService.js"></script>
+  <script src="scripts/services/travelService.js"></script>
+  <script src="scripts/services/mapActionService.js"></script>
+  <script src="scripts/services/viewMapService.js"></script>
   <script src="scripts/controllers/mapController.js"></script>
+  <script src="scripts/controllers/viewMapController.js"></script>
   <script src="scripts/controllers/userController.js"></script>
+  <script src="scripts/controllers/loggedInController.js"></script>
 
 </body>
 </html>

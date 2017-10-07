@@ -10,16 +10,22 @@ app.config(function($stateProvider) {
     templateUrl: 'views/home.html'
   };
 
-  var signInState = {
-    name: 'signIn',
-    url: '/signIn',
-    templateUrl: 'views/signIn.html'
-  };
-
   var createMapState = {
     name: 'createMap',
     url: '/createMap',
     templateUrl: 'views/createmap.html'
+  };
+
+  var editTravelState = {
+    name: 'editTravel',
+    url: '/editTravel',
+    templateUrl: 'views/editTravel.html'
+  };
+
+  var viewTravelState = {
+    name: 'viewTravel',
+    url: '/viewTravel',
+    templateUrl: 'views/viewTravel.html'
   };
 
   var userProfileState = {
@@ -29,8 +35,8 @@ app.config(function($stateProvider) {
   };
 
   $stateProvider.state(homeState);
-  $stateProvider.state(signInState);
   $stateProvider.state(createMapState);
+  $stateProvider.state(editTravelState);
+  $stateProvider.state(viewTravelState);
   $stateProvider.state(userProfileState);
-
 });
