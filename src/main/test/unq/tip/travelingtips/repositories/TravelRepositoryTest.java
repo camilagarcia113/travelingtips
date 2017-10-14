@@ -133,7 +133,7 @@ public class TravelRepositoryTest {
         List<Travel> travels1 = (List<Travel>) travelRepository.findAll();
         assertEquals(2, travels1.size());
 
-        travelRepository.deleteByUserAndTitle("Carlos", "My fabulous trip to NY");
+        travelRepository.delete(travel1.getId());
 
         Travel travel = travelRepository.findByUserAndTitle("Carlos", "My fabulous trip to NY");
         assertNull(travel);

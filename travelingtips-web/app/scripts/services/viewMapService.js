@@ -2,10 +2,10 @@ app.service('viewMapService', ['$http', function ($http) {
 
   var data;
 
-  this.getTravel = function(title, userID) {
+  this.getTravel = function(travelId) {
     $http({
       method: 'GET',
-      url: 'http://localhost:8080/travel?user=' + userID + '&title=' + title
+      url: 'http://localhost:8080/travel/' + travelId
     }).then(function(result) {
       data = result.data;
     });
