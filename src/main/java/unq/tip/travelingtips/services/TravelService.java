@@ -23,11 +23,11 @@ public class TravelService {
         return travelRepository.findByUser(user);
     }
 
-    public void deleteTravel(String userId, String travelTitle) {
-        travelRepository.deleteByUserAndTitle(userId, travelTitle);
+    public void deleteTravel(Long travelId) {
+        travelRepository.delete(travelId);
     }
 
-    public Travel getTravel(String user, String title) {
-        return travelRepository.findByUserAndTitle(user, title);
+    public Travel getTravel(Long travelId) {
+        return travelRepository.findOne(travelId);
     }
 }

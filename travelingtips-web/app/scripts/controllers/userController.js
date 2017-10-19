@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('UserController', function($scope, $http, userService, alertService, $state, viewMapService) {
+app.controller('UserController', function($scope, $http, userService, alertService, $state) {
 
   $scope.isOwnerOfProfile = true;
   $scope.userName = userService.getName();
@@ -20,20 +20,15 @@ app.controller('UserController', function($scope, $http, userService, alertServi
     });
   }
 
-  $scope.deleteTravel = function(travelTitle) {
+  $scope.deleteTravel = function(travel) {
     //open modal asking if user is sure to delete
     $http({
       method: 'POST',
-      url: 'http://localhost:8080/deleteTravel?user=' + $scope.userID + '&title=' + travelTitle
+      url: 'http://localhost:8080/deleteTravel/' + travel.id
     }).then(function(result) {
       alertService.showSuccessAlert('Viaje borrado!');
       getUserTravels();
     });
-  }
-
-  $scope.viewTravel = function(travelTitle) {
-    viewMapService.getTravel(travelTitle, $scope.userID);
-    $state.go('viewTravel');
   }
 
   getUserTravels();

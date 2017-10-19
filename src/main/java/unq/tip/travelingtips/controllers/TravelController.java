@@ -30,16 +30,14 @@ public class TravelController {
     }
 
 
-    @RequestMapping("/travel")
-    public @ResponseBody Travel getTravel(@RequestParam(value="user", required=true) String userId,
-            @RequestParam(value="title", required=true) String travelTitle) {
-        return travelService.getTravel(userId, travelTitle);
+    @RequestMapping("/travel/{id}")
+    public @ResponseBody Travel getTravel(@PathVariable("id") Long travelId) {
+        return travelService.getTravel(travelId);
     }
 
-    @RequestMapping(value = "/deleteTravel", method = RequestMethod.POST)
-    public @ResponseBody void deleteTravel(@RequestParam(value="user", required=true) String userId,
-                             @RequestParam(value="title", required=true) String travelTitle) {
-        travelService.deleteTravel(userId, travelTitle);
+    @RequestMapping(value = "/deleteTravel/{id}", method = RequestMethod.POST)
+    public @ResponseBody void deleteTravel(@PathVariable("id") Long travelId) {
+        travelService.deleteTravel(travelId);
     }
 
 
