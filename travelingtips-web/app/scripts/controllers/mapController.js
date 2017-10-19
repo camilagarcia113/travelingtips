@@ -123,7 +123,8 @@ app.controller('MapController', function($scope, $http, Travel, userService, ale
     Travel.addCommentAndRating($scope.comments);
     Travel.addTitle($scope.travelTitle);
     Travel.addSummary($scope.travelSummary);
-    if(Travel.isValid()) {
+    var travelValidation = Travel.validate();
+    if(travelValidation.isValid()) {
       $http({
         method: "POST",
         url: "http://localhost:8080/travels",

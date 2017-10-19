@@ -1,15 +1,14 @@
-<div ng-include="'/views/header.html'"></div>
+<div>
+	<div ng-include="'/views/header.html'"></div>
 
-
-<div ng-controller="ViewMapController" ng-init="init()">
-    <h1>Mirando viaje: {{travel.title}}</h1>
-    <h3>{{travel.summary}}</h3>
-    <div class="panel panel-default panelViewMap">
-        <div class="panel-heading">Cliquea los marcadores para leer los comentarios de {{user}}</div>
-        <div class="panel-body">
-            <div id="mapView"></div>
-        </div>
-    </div>
-
+	<div ng-controller="ViewMapController">
+	    <h1>Mirando viaje: {{travel.title}}</h1>
+	    <h3>{{travel.summary}}</h3>
+	    <div class="panel panel-default panelViewMap">
+	        <div class="panel-heading">Cliquea los marcadores para leer los comentarios de {{user}}</div>
+	        <div class="panel-body">
+	            <div id="mapView"></div>
+	        </div>
+	    </div>
+	</div>
 </div>
-

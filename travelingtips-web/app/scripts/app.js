@@ -22,21 +22,28 @@ app.config(function($stateProvider) {
     templateUrl: 'views/editTravel.html'
   };
 
-  var viewTravelState = {
-    name: 'viewTravel',
-    url: '/viewTravel',
-    templateUrl: 'views/viewTravel.html'
-  };
-
   var userProfileState = {
     name: 'userProfile',
     url: '/userProfile',
-    templateUrl: 'views/userProfile.html'
+    templateUrl: 'views/userProfile.html',
+  };
+
+  var viewTravelState = {
+    name: 'viewTravel',
+    url: '/viewTravel/:id',
+    templateUrl: 'views/viewTravel.html',
+    controller: 'ViewMapController',
+    controllerAs: 'viewMapController',
+    resolve: {
+      travel: function(viewMapService, $stateParams) {
+        return viewMapService.getTravel(parseInt($stateParams.id));
+      }
+    }
   };
 
   $stateProvider.state(homeState);
   $stateProvider.state(createMapState);
   $stateProvider.state(editTravelState);
-  $stateProvider.state(viewTravelState);
   $stateProvider.state(userProfileState);
+  $stateProvider.state(viewTravelState);
 });
