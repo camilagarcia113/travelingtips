@@ -36,8 +36,8 @@ public class TravelRepositoryTest {
     @Before
     public void setUp() {
         Marker marker1 = new Marker("-32.1234", "-45.5678", 1, "Really good", 4);
-        Marker marker2 = new Marker("-32.12523", "-45.5678", 2, "Really good", 4);
-        Marker marker3 = new Marker("-32.1234", "-45.5678", 3, "Really good", 4);
+        Marker marker2 = new Marker("-32.1253", "-45.5678", 2, "Really good", 4);
+        Marker marker3 = new Marker("-32.123", "-45.5678", 3, "Really good", 4);
         List<Marker> placesTravel1 = new ArrayList<>();
         placesTravel1.add(marker1);
         placesTravel1.add(marker2);
@@ -45,9 +45,9 @@ public class TravelRepositoryTest {
         travel1 = new Travel("Carlos", "My fabulous trip to NY", "Summary", placesTravel1);
 
         Marker marker4 = new Marker("-32.1234", "-45.5678", 1, "Really good", 4);
-        Marker marker5 = new Marker("-32.1234", "-45.5678", 2, "Really good", 4);
-        Marker marker6 = new Marker("-32.1234", "-45.5678", 3, "Really good", 4);
-        Marker marker7 = new Marker("-32.1234", "-45.5678", 4, "Really good", 4);
+        Marker marker5 = new Marker("-32.123", "-45.5678", 2, "Really good", 4);
+        Marker marker6 = new Marker("-32.123", "-45.5678", 3, "Really good", 4);
+        Marker marker7 = new Marker("-32.234", "-45.5678", 4, "Really good", 4);
         List<Marker> placesTravel2 = new ArrayList<>();
         placesTravel2.add(marker4);
         placesTravel2.add(marker5);
@@ -140,5 +140,22 @@ public class TravelRepositoryTest {
 
         List<Travel> travels2 = (List<Travel>) travelRepository.findAll();
         assertEquals(1, travels2.size());
+    }
+
+    @Test
+    public void shouldFindByTitle() {
+        List<Travel> foundTravels = travelRepository.findByTitleContainingIgnoreCase("trip");
+
+        assertEquals(1, foundTravels.size());
+        assertEquals("My fabulous trip to NY", foundTravels.get(0).getTitle());
+    }
+
+    @Test
+    public void shouldFindByPlace() {
+        List<Travel> foundTravels = travelRepository.findTravelByPlacesVisited("-32.1234", "-45.5678");
+
+        assertEquals(2, foundTravels.size());
+        assertEquals("My fabulous trip to NY", foundTravels.get(0).getTitle());
+        assertEquals("Bolivia and Peru", foundTravels.get(1).getTitle());
     }
 }

@@ -32,20 +32,7 @@ app.controller('MapController', function($scope, $http, Travel, userService, ale
   autocomplete.bindTo('bounds', $scope.map);
 
   autocomplete.addListener('place_changed', function() {
-    var place = autocomplete.getPlace();
-    if (!place.geometry) {
-      alertService.showDangerAlert('Ingresa un lugar valido');
-      return;
-    }
-
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-      $scope.map.fitBounds(place.geometry.viewport);
-    } else {
-      $scope.map.setCenter(place.geometry.location);
-      $scope.map.setZoom(6);
-    }
-    place = "";
+    mapAction.autocompleteListener($scope.map, autocomplete.getPlace());
   });
 
   mapAction.changeGeolocation($scope.map);
@@ -115,16 +102,27 @@ app.controller('MapController', function($scope, $http, Travel, userService, ale
     }
   }
 
+  function addMissingContentToTravel() {
+    Travel.addCommentAndRating($scope.comments);
+    Travel.addTitle($scope.travelTitle);
+    Travel.addSummary($scope.travelSummary);
+  }
+
   $scope.openCommentSection = function () {
     $scope.showCommentSection = true;
   };
 
   $scope.saveTravel = function() {
-    Travel.addCommentAndRating($scope.comments);
-    Travel.addTitle($scope.travelTitle);
-    Travel.addSummary($scope.travelSummary);
-    var travelValidation = Travel.validate();
-    if(travelValidation.isValid()) {
+    addMissingContentToTravel();
+
+    Travel.validate();
+    if(Travel.hasErrors()) {
+      var errors = Travel.getErrors();
+      for(var e in errors) {
+        alertService.showDangerAlert(errors[e]);
+      }
+      Travel.removeErrors();
+    } else {
       $http({
         method: "POST",
         url: "http://localhost:8080/travels",
@@ -141,9 +139,7 @@ app.controller('MapController', function($scope, $http, Travel, userService, ale
         alertService.showSuccessAlert('Viaje guardado!');
       });
       $state.go('home');
-    } else {
-      alertService.showDangerAlert('Tu viaje no se guardo, por favor completa todos los campos');
     }
-  };
+  }
 
 });

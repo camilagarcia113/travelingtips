@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ID", "TITLE", "USER"})})
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ID", "USER"})})
 public class Travel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,6 +19,9 @@ public class Travel implements Serializable {
     private String title;
 
     private String summary;
+
+    @Column(columnDefinition = "mediumblob")
+    private byte[] image;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Marker> placesVisited;
@@ -74,5 +77,13 @@ public class Travel implements Serializable {
 
     public void setPlacesVisited(List<Marker> placesVisited) {
         this.placesVisited = placesVisited;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

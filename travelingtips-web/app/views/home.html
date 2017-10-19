@@ -1,8 +1,8 @@
 <div ng-include="'/views/header.html'"></div>
 
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="HomeController">
     <div class="row">
-        <div class="col-sm-4" contenteditable="false">
+        <div class="col-sm-6" contenteditable="false">
             <div class="panel panel-default target homePanel">
                 <div class="panel-heading" contenteditable="false">Buscador de viajes</div>
                 <h5>Ingresa algun lugar al que quieras ir y mira lo que hicieron otros</h5>
@@ -10,9 +10,9 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Proba con: Londres">
+                                <input type="text" class="form-control" placeholder="Proba con: Londres" ng-model="wordsInTitle">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                    <button class="btn btn-default" type="button" ng-click="findTravelsFromInput()"><span class="glyphicon glyphicon-search"></span></button>
                                 </span>
                             </div>
                         </div>
@@ -20,61 +20,42 @@
                 </div>
             </div>
             <div class="panel panel-default target homePanel">
-                <div class="panel-heading" contenteditable="false">Buscador de viajeros</div>
-                <h5>Busca amigos y segui sus viajes</h5>
+                <div class="panel-heading" contenteditable="false">Buscador por lugares</div>
+                <h5>Marca un punto que te interese en el mapa y mira quienes pasaron por ahi </h5>
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Ricky Fort">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                </span>
+                    <input id="pac-input" class="controls" type="text" placeholder="Busca un lugar para marcar">
+                    <div id="map"></div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+            <!--<div class="panel panel-default target homePanel">-->
+                <!--<div class="panel-heading" contenteditable="false">Buscador de viajeros</div>-->
+                <!--<h5>Busca amigos y segui sus viajes</h5>-->
+                <!--<div class="panel-body">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<div class="input-group">-->
+                                <!--<input type="text" class="form-control" placeholder="Ricky Fort">-->
+                                <!--<span class="input-group-btn">-->
+                                    <!--<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 
         <div class="col-sm-5" contenteditable="false">
-            <div class="panel panel-default target homePanel">
-                <div class="panel-heading" contenteditable="false">Viajes de tus amigos</div>
+            <div class="panel panel-default target homePanel" ng-show="foundTravels.length > 0">
+                <div class="panel-heading" contenteditable="false">Viajes encontrados: </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <img alt="300x200" src="http://lorempixel.com/600/200/people">
-                                <div class="caption">
-                                    <h3>Titulo viaje 1</h3>
-                                    <p>Aca podria ir una descripcion</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div ng-repeat="travel in foundTravels">
                         <div class="col-md-4">
                             <div class="thumbnail">
                                 <img alt="300x200" src="http://lorempixel.com/600/200/city">
                                 <div class="caption">
-                                    <h3>Titulo viaje 2</h3>
-                                    <p>Aca podria ir una otra descripcion</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <img alt="300x200" src="http://lorempixel.com/600/200/sports">
-                                <div class="caption">
-                                    <h3>Titulo viaje 3 pero este es mas largo </h3>
-                                    <p>Aca podria ir una descripcion tambien mas larga para ver como queda</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <img alt="300x200" src="http://lorempixel.com/600/200/city">
-                                <div class="caption">
-                                    <h3>Titulo viaje 2</h3>
-                                    <p>Aca podria ir una otra descripcion</p>
+                                    <h3>{{travel.title}}</h3>
+                                    <p>{{travel.summary}}</p>
                                 </div>
                             </div>
                         </div>

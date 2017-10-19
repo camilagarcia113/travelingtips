@@ -13,6 +13,8 @@ public class TravelPojo {
 
     private String summary;
 
+    private byte[] image;
+
     private List<Marker> markers = new ArrayList<>();
 
     public String getUser() {
@@ -45,5 +47,13 @@ public class TravelPojo {
 
     public void setMarkers(List<Marker> markers) {
         this.markers = markers;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

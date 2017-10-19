@@ -40,5 +40,13 @@ public class TravelController {
         travelService.deleteTravel(travelId);
     }
 
+    @RequestMapping(value = "/findTravels")
+    public @ResponseBody List<Travel> findTravels(@RequestParam(value="title", required=true) String title) {
+        return travelService.getTravelsByTitle(title);
+    }
 
+    @RequestMapping(value = "/findTravelsMap", consumes = "application/json", method = RequestMethod.POST)
+    public @ResponseBody List<Travel> findTravelsMap(@RequestBody MarkerPojo location) {
+        return travelService.getTravelsByPlace(location);
+    }
 }
