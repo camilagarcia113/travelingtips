@@ -1,16 +1,13 @@
 'use strict';
 
-app.controller('ViewMapController', function($scope, viewMapService, mapAction, userService) {
+app.controller('ViewMapController', function($scope, viewMapService, mapAction, userService, travel) {
 
-  $scope.travel = {};
+  var self = this;
+  self.travel = travel;
+
   $scope.user = userService.getName();
   $scope.drawnMarkers = [];
-
-  $scope.init = function() {
-    $scope.travel = viewMapService.travel();
-    drawMapMarkers();
-  }
-
+  
   $scope.mapView = mapAction.newMap('mapView');
 
   var addInfoWindow = function(marker) {
@@ -25,6 +22,7 @@ app.controller('ViewMapController', function($scope, viewMapService, mapAction, 
   }
 
   var drawMapMarkers = function() {
+    console.log(self.travel);
     var markers = $scope.travel.placesVisited;
     for (var i = 0; i < markers.length; i++) {
       var marker = new google.maps.Marker({
@@ -41,4 +39,7 @@ app.controller('ViewMapController', function($scope, viewMapService, mapAction, 
   }
 
 
+  $scope.travel = self.travel; 
+  drawMapMarkers();
+ 
 });

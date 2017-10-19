@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('UserController', function($scope, $http, userService, alertService, $state, viewMapService) {
+app.controller('UserController', function($scope, $http, userService, alertService, $state) {
 
   $scope.isOwnerOfProfile = true;
   $scope.userName = userService.getName();
@@ -29,11 +29,6 @@ app.controller('UserController', function($scope, $http, userService, alertServi
       alertService.showSuccessAlert('Viaje borrado!');
       getUserTravels();
     });
-  }
-
-  $scope.viewTravel = function(travel) {
-    viewMapService.getTravel(travel.id);
-    $state.go('viewTravel');
   }
 
   getUserTravels();
