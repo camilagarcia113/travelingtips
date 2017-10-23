@@ -1,7 +1,52 @@
 <div ng-include="'/views/header.html'"></div>
 
-<h1>edit travel</h1>
+<div ng-controller="EditTravelController">
+    <h1>Editando viaje: {{travel.title}}</h1>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Clickea marcadores para borrarlos. Arrastralos para cambiarlos de lugar</div>
+                <div class="panel-body">
+                    <label>Titulo: </label><input id="title" type="text" class="form-control inputText"
+                           ng-model="travel.title">
+                    <label>Resumen: </label><textarea class="form-control" rows="2" id="travelSummary" ng-model="travel.summary" maxlength="100"></textarea>
+                    <input id="pac-input" class="controls" type="text" placeholder="Busca lugares para marcar">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
 
-<div ng-controller="UserController">
-    <p>{{travel.title}}</p>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label>Subi una foto de tu viaje: </label>
+                        <input type="file" file-upload multiple/>
+                        <!--<button ng-click = "uploadFile()">upload me</button>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Podes cambiar comentarios y/o ratings</div>
+                <div class="panel-body">
+                    <div ng-repeat="marker in travel.placesVisited">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-map-marker"></span>
+                                {{marker.sequence}}
+                            </span>
+                            <span class="input-group-addon" uib-rating ng-model="marker.rating" read-only="isReadonly" on-hover="hoveringOver(value)" aria-labelledby="default-rating"></span>
+                            </span>
+                        </div>
+                        <textarea class="form-control" rows="3" id="comment" maxlength="200"
+                                  ng-model="marker.comment" placeholder="Escribi un comentario sobre el lugar!">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <button id="saveTravel" type="button" class="btn btn-default"
+                    ng-click="saveTravel()">Save</button>
+        </div>
+    </div>
 </div>

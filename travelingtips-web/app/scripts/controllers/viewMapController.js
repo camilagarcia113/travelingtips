@@ -1,9 +1,6 @@
 'use strict';
 
-app.controller('ViewMapController', function($scope, viewMapService, mapAction, userService, travel) {
-
-  var self = this;
-  self.travel = travel;
+app.controller('ViewMapController', function($scope, $http, mapAction, userService, $stateParams) {
 
   $scope.user = userService.getName();
   $scope.drawnMarkers = [];
@@ -12,8 +9,8 @@ app.controller('ViewMapController', function($scope, viewMapService, mapAction, 
 
   var addInfoWindow = function(marker) {
     var infoWindow = new google.maps.InfoWindow({
-      content: 'Rating: ' + marker.rating + '<br>' +
-        'Comment: ' + marker.comment
+      content: '<h5> <b>Rating:</b> ' + marker.rating + '</h5> <br>' +
+        '<h5> <b>Comment:</b> ' + marker.comment + '</h5>'
     });
 
     google.maps.event.addListener(marker, 'click', function () {
@@ -22,7 +19,6 @@ app.controller('ViewMapController', function($scope, viewMapService, mapAction, 
   }
 
   var drawMapMarkers = function() {
-    console.log(self.travel);
     var markers = $scope.travel.placesVisited;
     for (var i = 0; i < markers.length; i++) {
       var marker = new google.maps.Marker({
@@ -38,8 +34,16 @@ app.controller('ViewMapController', function($scope, viewMapService, mapAction, 
 
   }
 
+  var getTravel = function(travelId) {
+    $http({
+      method: 'GET',
+      url: 'http://localhost:8080/travel/' + travelId
+    }).then(function(result) {
+      $scope.travel = result.data;
+      drawMapMarkers();
+    });
+  }
 
-  $scope.travel = self.travel; 
-  drawMapMarkers();
- 
+  getTravel($stateParams.id);
+
 });

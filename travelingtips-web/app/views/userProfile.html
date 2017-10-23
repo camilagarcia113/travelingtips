@@ -53,7 +53,9 @@
                   </div>
                 </a>
                 <div class="btnCrudProfile">
-                  <button ng-show="isOwnerOfProfile" ng-click="getTravel(travel.title)" type="button" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>
+                  <a ui-sref="editTravel({id: travel.id})">
+                    <button ng-show="isOwnerOfProfile" type="button" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>
+                  </a>
                   <button ng-show="isOwnerOfProfile" ng-click="deleteTravel(travel)" type="button" class="btn"><span class="glyphicon glyphicon-trash"></span></button>
                 </div>
               </div>
