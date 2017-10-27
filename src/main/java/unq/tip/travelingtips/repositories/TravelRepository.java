@@ -13,8 +13,6 @@ public interface TravelRepository extends CrudRepository<Travel, Long> {
 
     Travel findByUserAndTitle(String user, String title);
 
-    void deleteByUserAndTitle(String user, String title);
-
     List<Travel> findByUser(String user);
 
     List<Travel> findByTitleContainingIgnoreCase(String title);
