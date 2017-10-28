@@ -11,5 +11,6 @@ Links a la documentacion:
 * [POC](https://github.com/camilagarcia113/travelingtips/wiki/Prueba-de-concepto)
 * [Entrega 1](https://github.com/camilagarcia113/travelingtips/wiki/Entrega-1)
 * [Entrega 2](https://github.com/camilagarcia113/travelingtips/wiki/Entrega-2)
+* [Entrega 3](https://github.com/camilagarcia113/travelingtips/wiki/Entrega-3)
 
 #### Camila Garcia
