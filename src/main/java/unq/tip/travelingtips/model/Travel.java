@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ID", "TITLE", "USER"})})
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ID", "USER"})})
 public class Travel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,6 +30,11 @@ public class Travel implements Serializable {
         title = aTitle;
         summary = aSummary;
         placesVisited = places;
+    }
+
+    public Travel(Long anId, String aUser, String aTitle, String aSummary, List<Marker> places) {
+        this(aUser, aTitle, aSummary, places);
+        id = anId;
     }
 
     public static long getSerialVersionUID() {
@@ -75,4 +80,5 @@ public class Travel implements Serializable {
     public void setPlacesVisited(List<Marker> placesVisited) {
         this.placesVisited = placesVisited;
     }
+
 }

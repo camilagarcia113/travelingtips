@@ -19,7 +19,9 @@ public class TravelController {
 
     @RequestMapping(value = "/travels", consumes = "application/json", method = RequestMethod.POST)
     public @ResponseBody void saveMarkedTravel(@RequestBody TravelPojo data) {
-        if(data != null) {
+        if(data.getId() != null) {
+            travelService.updateTravel(data);
+        } else {
             travelService.saveTravel(data);
         }
     }
@@ -40,5 +42,13 @@ public class TravelController {
         travelService.deleteTravel(travelId);
     }
 
+    @RequestMapping(value = "/findTravels/{title}")
+    public @ResponseBody List<Travel> findTravels(@PathVariable("title") String title) {
+        return travelService.getTravelsByTitle(title);
+    }
 
+    @RequestMapping(value = "/findTravelsMap", consumes = "application/json", method = RequestMethod.POST)
+    public @ResponseBody List<Travel> findTravelsMap(@RequestBody MarkerPojo location) {
+        return travelService.getTravelsByPlace(location);
+    }
 }

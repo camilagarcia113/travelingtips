@@ -18,7 +18,7 @@ app.config(function($stateProvider) {
 
   var editTravelState = {
     name: 'editTravel',
-    url: '/editTravel',
+    url: '/editTravel/:id',
     templateUrl: 'views/editTravel.html'
   };
 
@@ -32,13 +32,6 @@ app.config(function($stateProvider) {
     name: 'viewTravel',
     url: '/viewTravel/:id',
     templateUrl: 'views/viewTravel.html',
-    controller: 'ViewMapController',
-    controllerAs: 'viewMapController',
-    resolve: {
-      travel: function(viewMapService, $stateParams) {
-        return viewMapService.getTravel(parseInt($stateParams.id));
-      }
-    }
   };
 
   $stateProvider.state(homeState);

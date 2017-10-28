@@ -7,13 +7,25 @@ import java.util.List;
 
 public class TravelPojo {
 
+    private Long id;
+
     private String user;
 
     private String title;
 
     private String summary;
 
+    private byte[] image;
+
     private List<Marker> markers = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUser() {
         return user;
@@ -45,5 +57,13 @@ public class TravelPojo {
 
     public void setMarkers(List<Marker> markers) {
         this.markers = markers;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
