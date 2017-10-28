@@ -9,7 +9,7 @@ app.controller('ViewMapController', function($scope, $http, mapAction, userServi
 
   var addInfoWindow = function(marker) {
     var infoWindow = new google.maps.InfoWindow({
-      content: '<h5> <b>Rating:</b> ' + marker.rating + '</h5> <br>' +
+      content: '<h5> <b>Rating:</b> ' + marker.rating + ' <span class="glyphicon glyphicon-star"></span></h5> <br>' +
         '<h5> <b>Comment:</b> ' + marker.comment + '</h5>'
     });
 

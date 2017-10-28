@@ -39,4 +39,9 @@ public class TravelService {
     public List<Travel> getTravelsByPlace(MarkerPojo marker) {
         return travelRepository.findTravelByPlacesVisited(marker.getLatitude(), marker.getLongitude());
     }
+
+    public void updateTravel(TravelPojo travel) {
+        Travel newTravel = new Travel(travel.getId(), travel.getUser(), travel.getTitle(), travel.getSummary(), travel.getMarkers());
+        travelRepository.save(newTravel);
+    }
 }

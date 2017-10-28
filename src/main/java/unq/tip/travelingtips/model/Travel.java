@@ -20,9 +20,6 @@ public class Travel implements Serializable {
 
     private String summary;
 
-    @Column(columnDefinition = "mediumblob")
-    private byte[] image;
-
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Marker> placesVisited;
 
@@ -33,6 +30,11 @@ public class Travel implements Serializable {
         title = aTitle;
         summary = aSummary;
         placesVisited = places;
+    }
+
+    public Travel(Long anId, String aUser, String aTitle, String aSummary, List<Marker> places) {
+        this(aUser, aTitle, aSummary, places);
+        id = anId;
     }
 
     public static long getSerialVersionUID() {
@@ -79,11 +81,4 @@ public class Travel implements Serializable {
         this.placesVisited = placesVisited;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 }

@@ -16,13 +16,26 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
   autocomplete.bindTo('bounds', $scope.map);
 
   autocomplete.addListener('place_changed', function() {
-    mapAction.autocompleteListener($scope.map, autocomplete.getPlace());
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      alertService.showDangerAlert('Ingresa un lugar valido');
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      $scope.map.fitBounds(place.geometry.viewport);
+    } else {
+      $scope.map.setCenter(place.geometry.location);
+      $scope.map.setZoom(6);
+    }
+    place = "";
   });
 
   $scope.findTravelsFromInput = function() {
     $http({
       method: 'GET',
-      url: 'http://localhost:8080/findTravels?title=' + $scope.wordsInTitle
+      url: 'http://localhost:8080/findTravels/' + $scope.wordsInTitle
     }).then(function(result) {
       if(result.data.length > 0) {
         $scope.foundTravels = result.data;

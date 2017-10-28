@@ -32,7 +32,20 @@ app.controller('MapController', function($scope, $http, Travel, userService, ale
   autocomplete.bindTo('bounds', $scope.map);
 
   autocomplete.addListener('place_changed', function() {
-    mapAction.autocompleteListener($scope.map, autocomplete.getPlace());
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      alertService.showDangerAlert('Ingresa un lugar valido');
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      $scope.map.fitBounds(place.geometry.viewport);
+    } else {
+      $scope.map.setCenter(place.geometry.location);
+      $scope.map.setZoom(6);
+    }
+    place = "";
   });
 
   mapAction.changeGeolocation($scope.map);
