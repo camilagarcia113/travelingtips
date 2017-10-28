@@ -36,9 +36,9 @@
                         </div>
                     </div>
                 </div>
-                <button id="okMap" type="button" class="btn btn-default" ng-show="!showCommentSection" ng-click="openCommentSection()" ng-disabled="!(isTitleComplete && isMapMarked)">OK</button>
+                <button id="okMap" type="button" class="btn btn-default" ng-show="!showCommentSection" ng-click="openCommentSection()" ng-disabled="!isMapMarked">OK</button>
                 <button id="saveTravel" type="button" class="btn btn-default" ng-show="showCommentSection"
-                    ng-disabled="!(isTitleComplete && isMapMarked && (comments.length == mapMarkers.length))" ng-click="saveTravel()">Save</button>
+                    ng-disabled="!isMapMarked" ng-click="saveTravel()">Save</button>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-app.service('viewMapService', ['$http', function ($http) {
+app.service('getTravelService', ['$http', function ($http) {
 
   this.getTravel = function(travelId) {
     $http({
