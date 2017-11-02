@@ -1,8 +1,7 @@
 'use strict';
 
-app.controller('ViewMapController', function($scope, $http, mapAction, userService, $stateParams) {
+app.controller('ViewMapController', function($scope, $http, mapAction, $stateParams) {
 
-  $scope.user = userService.getName();
   $scope.drawnMarkers = [];
   
   $scope.mapView = mapAction.newMap('mapView');

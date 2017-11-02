@@ -1,4 +1,4 @@
-package unq.tip.travelingtips.controllers;
+package unq.tip.travelingtips.controllers.pojo;
 
 public class MarkerPojo {
 

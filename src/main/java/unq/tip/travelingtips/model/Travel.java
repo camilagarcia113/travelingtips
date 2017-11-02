@@ -1,5 +1,7 @@
 package unq.tip.travelingtips.model;
 
+import unq.tip.travelingtips.utils.Haversine;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -81,4 +83,8 @@ public class Travel implements Serializable {
         this.placesVisited = placesVisited;
     }
 
+    public boolean hasAMarkerNear(String latitude, String longitude) {
+        return placesVisited.stream().anyMatch(marker -> Haversine.distance(Double.parseDouble(marker.getLatitude()), Double.parseDouble(marker.getLongitude()),
+                Double.parseDouble(latitude), Double.parseDouble(longitude)) <= 0.05);
+    }
 }
