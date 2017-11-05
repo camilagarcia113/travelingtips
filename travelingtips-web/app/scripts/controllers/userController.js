@@ -6,7 +6,9 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   $scope.loggedId = sessionStorage.getItem('userID');
   $scope.user = {}
   $scope.travels = [];
+  $scope.favouriteTravels = [];
   $scope.travelsSize = 0;
+  $scope.favsSize = 0;
   $scope.activeTravels = "active";
   $scope.activeFavs = "";
   $scope.isSelectedTravels = true;
@@ -26,6 +28,7 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
       }
 
       getUserTravels();
+      getFavouriteTravels()
     });
   }
 
@@ -36,6 +39,16 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   	}).then(function(result) {
       $scope.travels = result.data;
       $scope.travelsSize = $scope.travels.length;
+    });
+  }
+
+  function getFavouriteTravels() {
+  	$http({
+  		method: 'GET',
+   		url: 'http://localhost:8080/favouriteTravels?user=' + $scope.user.id
+   	}).then(function(result) {
+      $scope.favouriteTravels = result.data;
+      $scope.favsSize = $scope.favouriteTravels.length;
     });
   }
 
@@ -63,7 +76,7 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
     $scope.isSelectedTravels = false;
     $scope.activeFavs = "active";
     $scope.isSelectedFavs = true;
-    //getUserFavourites();
+    getFavouriteTravels();
   }
 
   getUser($stateParams.id);

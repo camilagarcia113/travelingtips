@@ -2,9 +2,9 @@
 
 <div ng-controller="ViewMapController">
 	<h1>Mirando viaje: {{travel.title}}</h1>
-	<h3>{{travel.summary}}</h3>
+	<h3 class="viewTravelH3">{{travel.summary}}</h3>
+	<button ng-show="!isOwnerOfProfile" ng-click="addToFavourites(travel.id)" type="button" class="btn favouritesBtn">Agregar a favoritos</button>
 	<div class="panel panel-default panelViewMap">
-		<div class="panel-heading">Cliquea los marcadores para leer los comentarios de {{user}}</div>
 		<div class="panel-body">
 			<div id="mapView"></div>
 		</div>

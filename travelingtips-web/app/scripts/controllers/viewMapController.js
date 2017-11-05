@@ -1,9 +1,11 @@
 'use strict';
 
-app.controller('ViewMapController', function($scope, $http, mapAction, $stateParams) {
+app.controller('ViewMapController', function($scope, $http, mapAction, $stateParams, alertService) {
 
   $scope.drawnMarkers = [];
-  
+  $scope.loggedId = sessionStorage.getItem('userID');
+  $scope.isOwnerOfProfile = false;
+
   $scope.mapView = mapAction.newMap('mapView');
 
   var addInfoWindow = function(marker) {
@@ -39,7 +41,23 @@ app.controller('ViewMapController', function($scope, $http, mapAction, $statePar
       url: 'http://localhost:8080/travel/' + travelId
     }).then(function(result) {
       $scope.travel = result.data;
+      if($scope.travel.user == $scope.loggedId) {
+        $scope.isOwnerOfProfile = true;
+      }
       drawMapMarkers();
+    });
+  }
+
+  $scope.addToFavourites = function(travelId) {
+    var loggedUser = sessionStorage.getItem('userID');
+    $http({
+      method: 'POST',
+      url: 'http://localhost:8080/addToFavourites/' + travelId + '/' + loggedUser,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(result) {
+      alertService.showSuccessAlert('Agregado!');
     });
   }
 

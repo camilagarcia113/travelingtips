@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import unq.tip.travelingtips.controllers.pojo.UserPojo;
+import unq.tip.travelingtips.model.Travel;
 import unq.tip.travelingtips.model.User;
 import unq.tip.travelingtips.services.UserService;
 
@@ -31,4 +32,16 @@ public class UserController {
     List<User> findFriends(@PathVariable("name") String name) {
         return userService.findByName(name);
     }
+
+    @RequestMapping(value = "/addToFavourites/{id}/{user}", method = RequestMethod.POST)
+    public @ResponseBody void addToFavourites(@PathVariable("id") Long travelId,
+                                              @PathVariable("user") String user) {
+        userService.addToFavourites(travelId, user);
+    }
+
+    @RequestMapping("/favouriteTravels")
+    public @ResponseBody List<Travel> getFavourites(@RequestParam(value="user", required=true) String userId) {
+        return userService.getFavourites(userId);
+    }
+
 }

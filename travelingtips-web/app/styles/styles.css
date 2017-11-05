@@ -138,9 +138,18 @@ h1, h2, h3, h4, h5 {
 }
 
 .refreshMapSearch {
-    position: absolute;
-    top: 27.5%;
-    left: 93%;
+ position: absolute;
+ top: 27.5%;
+ left: 93%;
+}
+
+.viewTravelH3 {
+  display: inline-block;
+}
+
+.favouritesBtn {
+  position: absolute;
+  right: 1%;
 }
 
 /** HEADER CSS **/
