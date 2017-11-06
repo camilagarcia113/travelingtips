@@ -30,7 +30,7 @@ app.config(function($stateProvider) {
 
   var viewTravelState = {
     name: 'viewTravel',
-    url: '/viewTravel/:id',
+    url: '/viewTravel/:id/:favourite',
     templateUrl: 'views/viewTravel.html',
   };
 

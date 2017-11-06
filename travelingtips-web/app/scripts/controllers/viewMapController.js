@@ -5,6 +5,7 @@ app.controller('ViewMapController', function($scope, $http, mapAction, $statePar
   $scope.drawnMarkers = [];
   $scope.loggedId = sessionStorage.getItem('userID');
   $scope.isOwnerOfProfile = false;
+  $scope.isFavouriteView = false;
 
   $scope.mapView = mapAction.newMap('mapView');
 
@@ -35,7 +36,7 @@ app.controller('ViewMapController', function($scope, $http, mapAction, $statePar
 
   }
 
-  var getTravel = function(travelId) {
+  var getTravel = function(travelId, isFavourite) {
     $http({
       method: 'GET',
       url: 'http://localhost:8080/travel/' + travelId
@@ -43,6 +44,9 @@ app.controller('ViewMapController', function($scope, $http, mapAction, $statePar
       $scope.travel = result.data;
       if($scope.travel.user == $scope.loggedId) {
         $scope.isOwnerOfProfile = true;
+      }
+      if(isFavourite == "true") {
+        $scope.isFavouriteView = true;
       }
       drawMapMarkers();
     });
@@ -57,10 +61,11 @@ app.controller('ViewMapController', function($scope, $http, mapAction, $statePar
         'Content-Type': 'application/json'
       }
     }).then(function(result) {
+      $scope.isFavouriteView = true;
       alertService.showSuccessAlert('Agregado!');
     });
   }
 
-  getTravel($stateParams.id);
+  getTravel($stateParams.id, $stateParams.favourite);
 
 });
