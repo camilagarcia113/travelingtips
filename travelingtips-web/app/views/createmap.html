@@ -38,7 +38,8 @@
                 </div>
                 <button id="okMap" type="button" class="btn btn-default" ng-show="!showCommentSection" ng-click="openCommentSection()" ng-disabled="!isMapMarked">OK</button>
                 <button id="saveTravel" type="button" class="btn btn-default" ng-show="showCommentSection"
-                    ng-disabled="!isMapMarked" ng-click="saveTravel()">Save</button>
+                    ng-disabled="!isMapMarked" ng-click="saveTravel()">Guardar</button>
+                <a ui-sref="userProfile({id: user})"><button id="cancelMap" type="button" class="btn btn-default">Cancelar</button></a>
             </div>
         </div>
     </div>
