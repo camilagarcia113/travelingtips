@@ -74,18 +74,22 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
   });
 
   $scope.findTravelsFromInput = function() {
-    $http({
-      method: 'GET',
-      url: 'http://localhost:8080/findTravels/' + $scope.input.title
-    }).then(function(result) {
-      if(result.data.length > 0) {
-        $scope.foundTravels = result.data;
-        $scope.titleInput = $scope.input.title;
-        $scope.input.title = "";
-      } else {
-        alertService.showWarningAlert('No existe un viaje que tenga en el titulo esas palabras. Proba otro!');
-      }
-    });
+    if($scope.input.title !== undefined && $scope.input.title !== "") {
+      $http({
+        method: 'GET',
+        url: 'http://localhost:8080/findTravels/' + $scope.input.title
+      }).then(function(result) {
+        if(result.data.length > 0) {
+          $scope.foundTravels = result.data;
+          $scope.titleInput = $scope.input.title;
+          $scope.input.title = "";
+        } else {
+          alertService.showWarningAlert('No existe un viaje que tenga en el titulo esas palabras. Proba otro!');
+        }
+      });
+    } else {
+      alertService.showDangerAlert('Proba escribir un lugar para poder buscarlo');
+    }
   }
 
   var decodePhotoUrlsFrom = function(listOfFriends) {
@@ -96,18 +100,22 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
   }
 
   $scope.findFriendFromInput = function() {
-    $http({
-      method: 'GET',
-      url: 'http://localhost:8080/findFriends/' + encodeURIComponent($scope.input.friend)
-    }).then(function(result) {
-      if(result.data.length > 0) {
-        $scope.foundFriends = decodePhotoUrlsFrom(result.data);
-        $scope.friendsInput = $scope.input.friend;
-        $scope.input.friend = "";
-      } else {
-        alertService.showWarningAlert('No existe un viajero con ese nombre. Proba otro!');
-      }
-    });
+    if($scope.input.friend !== undefined && $scope.input.friend !== "") {
+      $http({
+        method: 'GET',
+        url: 'http://localhost:8080/findFriends/' + $scope.input.friend
+      }).then(function(result) {
+        if(result.data.length > 0) {
+          $scope.foundFriends = decodePhotoUrlsFrom(result.data);
+          $scope.friendsInput = $scope.input.friend;
+          $scope.input.friend = "";
+        } else {
+          alertService.showWarningAlert('No existe un viajero con ese nombre. Proba otro!');
+        }
+      });
+    } else {
+      alertService.showDangerAlert('Proba escribir un nombre para poder buscarlo');
+    }
   }
 
   $scope.findTravelsFromMap = function(location) {
