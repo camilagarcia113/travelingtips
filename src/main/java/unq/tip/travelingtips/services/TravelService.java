@@ -33,8 +33,8 @@ public class TravelService {
         return travelRepository.findOne(travelId);
     }
 
-    public List<Travel> getTravelsByTitle(String title) {
-        return travelRepository.findByTitleContainingIgnoreCase(title);
+    public List<Travel> getTravelsByTitle(String user, String title) {
+        return filterByUser( travelRepository.findByTitleContainingIgnoreCase(title), user);
     }
 
     public List<Travel> getTravelsByPlace(MarkerPojo marker) {
@@ -50,6 +50,12 @@ public class TravelService {
     private List<Travel> getNearTravelsFromMarker(MarkerPojo marker, List<Travel> travels) {
         return travels.stream()
                 .filter(travel -> travel.hasAMarkerNear(marker.getLatitude(), marker.getLongitude()))
+                .collect(Collectors.toList());
+    }
+
+    private List<Travel> filterByUser(List<Travel> travels, String user) {
+        return travels.stream()
+                .filter(travel -> ! travel.getUser().equals(user))
                 .collect(Collectors.toList());
     }
 }

@@ -40,9 +40,10 @@ public class TravelController {
         travelService.deleteTravel(travelId);
     }
 
-    @RequestMapping(value = "/findTravels/{title}")
-    public @ResponseBody List<Travel> findTravels(@PathVariable("title") String title) {
-        return travelService.getTravelsByTitle(title);
+    @RequestMapping(value = "/findTravels/{user}/{title}")
+    public @ResponseBody List<Travel> findTravels(@PathVariable("user") String user,
+                                                  @PathVariable("title") String title) {
+        return travelService.getTravelsByTitle(user, title);
     }
 
     @RequestMapping(value = "/findTravelsMap", consumes = "application/json", method = RequestMethod.POST)

@@ -55,7 +55,7 @@
         </div>
 
         <div class="col-sm-5" contenteditable="false">
-            <div class="panel panel-default target homePanel" ng-show="foundTravels.length > 0 && status.open">
+            <div class="panel panel-default target homePanel" ng-show="status.open || foundTravels.length > 0">
                 <div class="panel-heading" contenteditable="false">Viajes encontrados: </div>
                 <div class="panel-body">
                     <div ng-repeat="travel in foundTravels">

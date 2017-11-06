@@ -9,6 +9,7 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
   $scope.foundFriends = {};
   $scope.mapMarked = false;
   $scope.markers = [];
+  $scope.user = sessionStorage.getItem('userID');
 
   $scope.oneAccordionAtATime = true;
   $scope.status = {
@@ -77,7 +78,7 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
     if($scope.input.title !== undefined && $scope.input.title !== "") {
       $http({
         method: 'GET',
-        url: 'http://localhost:8080/findTravels/' + $scope.input.title
+        url: 'http://localhost:8080/findTravels/' + $scope.user + '/' + $scope.input.title
       }).then(function(result) {
         if(result.data.length > 0) {
           $scope.foundTravels = result.data;
@@ -121,7 +122,7 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
   $scope.findTravelsFromMap = function(location) {
     $http({
       method: 'POST',
-      url: 'http://localhost:8080/findTravelsMap',
+      url: 'http://localhost:8080/findTravelsMap/',
       data: {
         latitude: location.lat().toString(),
         longitude: location.lng().toString()
