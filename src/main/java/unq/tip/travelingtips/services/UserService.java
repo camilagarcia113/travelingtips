@@ -44,4 +44,10 @@ public class UserService {
         List<Long> favouritesIds = user.getFavouriteTravels();
         return (List<Travel>) travelRepository.findAll(favouritesIds);
     }
+
+    public void deleteFavouriteTravel(Long travelId, String userId) {
+        User user = userRepository.findOne(userId);
+        user.removeFavouriteTravel(travelId);
+        userRepository.save(user);
+    }
 }

@@ -74,4 +74,8 @@ public class User implements Serializable{
     public void addFavouriteTravel(Long travelId) {
         favouriteTravels.add(travelId);
     }
+
+    public void removeFavouriteTravel(Long travelId) {
+        favouriteTravels.remove(travelId);
+    }
 }

@@ -44,4 +44,10 @@ public class UserController {
         return userService.getFavourites(userId);
     }
 
+    @RequestMapping(value = "/deleteFavouriteTravel/{id}/{user}", method = RequestMethod.POST)
+    public @ResponseBody void deleteFavouriteTravel(@PathVariable("id") Long travelId,
+                                                    @PathVariable("user") String user) {
+        userService.deleteFavouriteTravel(travelId, user);
+    }
+
 }

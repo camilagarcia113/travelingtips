@@ -53,13 +53,21 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   }
 
   $scope.deleteTravel = function(travel) {
-    //open modal asking if user is sure to delete
     $http({
       method: 'POST',
       url: 'http://localhost:8080/deleteTravel/' + travel.id
     }).then(function(result) {
       alertService.showSuccessAlert('Viaje borrado!');
       getUserTravels();
+    });
+  }
+
+  $scope.removeTravelFromFavs = function(travel) {
+    $http({
+      method: 'POST',
+      url: 'http://localhost:8080/deleteFavouriteTravel/' + travel.id + '/' + $scope.user.id
+    }).then(function(result) {
+      getFavouriteTravels();
     });
   }
 
