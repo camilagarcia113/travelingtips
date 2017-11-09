@@ -1,4 +1,4 @@
-package unq.tip.travelingtips.controllers;
+package unq.tip.travelingtips.controllers.pojo;
 
 import unq.tip.travelingtips.model.Marker;
 
@@ -14,8 +14,6 @@ public class TravelPojo {
     private String title;
 
     private String summary;
-
-    private byte[] image;
 
     private List<Marker> markers = new ArrayList<>();
 
@@ -59,11 +57,4 @@ public class TravelPojo {
         this.markers = markers;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 }

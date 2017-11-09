@@ -1,14 +1,26 @@
-app.controller('LoggedInController', function($scope, $state) {
+app.controller('LoggedInController', function($scope, $state, $http, alertService) {
 
   $scope.isLoggedIn = false;
+  $scope.userIDLoggedIn = "";
 
   function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     sessionStorage.setItem('userID', profile.getId());
-    sessionStorage.setItem('userName', profile.getName());
-    sessionStorage.setItem('userImgURL', profile.getImageUrl());
-    sessionStorage.setItem('userEmail', profile.getEmail());
-    $scope.isLoggedIn = true;
+
+    $http({
+      method: "POST",
+      url: "http://localhost:8080/user",
+      data: {
+        token: profile.getId(),
+        name: profile.getName(),
+        photoUrl: encodeURIComponent(profile.getImageUrl()),
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(result) {
+      $scope.isLoggedIn = true;
+    });
 
     $state.go('home');
   }
@@ -19,6 +31,7 @@ app.controller('LoggedInController', function($scope, $state) {
       sessionStorage.clear();
     });
     $scope.isLoggedIn = false;
+    location.reload();
   }
 
   window.onSignIn = onSignIn;

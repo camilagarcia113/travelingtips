@@ -2,12 +2,13 @@ package unq.tip.travelingtips.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import unq.tip.travelingtips.controllers.MarkerPojo;
-import unq.tip.travelingtips.controllers.TravelPojo;
+import unq.tip.travelingtips.controllers.pojo.MarkerPojo;
+import unq.tip.travelingtips.controllers.pojo.TravelPojo;
 import unq.tip.travelingtips.model.Travel;
 import unq.tip.travelingtips.repositories.TravelRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TravelService {
@@ -17,6 +18,11 @@ public class TravelService {
 
     public void saveTravel(TravelPojo travel) {
         Travel newTravel = new Travel(travel.getUser(), travel.getTitle(), travel.getSummary(), travel.getMarkers());
+        travelRepository.save(newTravel);
+    }
+
+    public void updateTravel(TravelPojo travel) {
+        Travel newTravel = new Travel(travel.getId(), travel.getUser(), travel.getTitle(), travel.getSummary(), travel.getMarkers());
         travelRepository.save(newTravel);
     }
 
@@ -32,16 +38,24 @@ public class TravelService {
         return travelRepository.findOne(travelId);
     }
 
-    public List<Travel> getTravelsByTitle(String title) {
-        return travelRepository.findByTitleContainingIgnoreCase(title);
+    public List<Travel> getTravelsByTitle(String user, String title) {
+        return filterByUser( travelRepository.findByTitleContainingIgnoreCase(title), user);
     }
 
     public List<Travel> getTravelsByPlace(MarkerPojo marker) {
-        return travelRepository.findTravelByPlacesVisited(marker.getLatitude(), marker.getLongitude());
+        List<Travel> travels = (List<Travel>) travelRepository.findAll();
+        return getNearTravelsFromMarker(marker, travels);
     }
 
-    public void updateTravel(TravelPojo travel) {
-        Travel newTravel = new Travel(travel.getId(), travel.getUser(), travel.getTitle(), travel.getSummary(), travel.getMarkers());
-        travelRepository.save(newTravel);
+    private List<Travel> getNearTravelsFromMarker(MarkerPojo marker, List<Travel> travels) {
+        return travels.stream()
+                .filter(travel -> travel.hasAMarkerNear(marker.getLatitude(), marker.getLongitude()))
+                .collect(Collectors.toList());
+    }
+
+    private List<Travel> filterByUser(List<Travel> travels, String user) {
+        return travels.stream()
+                .filter(travel -> ! travel.getUser().equals(user))
+                .collect(Collectors.toList());
     }
 }

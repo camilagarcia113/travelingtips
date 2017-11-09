@@ -4,7 +4,6 @@ app.controller('EditTravelController', function($scope, $http, Travel, mapAction
 
   var labelNumber = 1;
   $scope.mapMarkers = [];
-  $scope.user = userService.getName();
 
   $scope.hoveringOver = function(value) {
     $scope.overStar = value;

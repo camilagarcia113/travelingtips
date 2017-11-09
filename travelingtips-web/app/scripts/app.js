@@ -24,13 +24,13 @@ app.config(function($stateProvider) {
 
   var userProfileState = {
     name: 'userProfile',
-    url: '/userProfile',
+    url: '/userProfile/:token',
     templateUrl: 'views/userProfile.html',
   };
 
   var viewTravelState = {
     name: 'viewTravel',
-    url: '/viewTravel/:id',
+    url: '/viewTravel/:id/:favourite',
     templateUrl: 'views/viewTravel.html',
   };
 

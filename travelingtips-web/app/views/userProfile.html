@@ -13,37 +13,30 @@
             <img src="{{userPhoto}}" class="img-responsive" alt="">
           </div>
           <div class="profile-usertitle">
-            <div class="profile-usertitle-name">{{userName}}</div>
+            <div class="profile-usertitle-name">{{user.name}}</div>
           </div>
           <div class="profile-userbuttons">
-            <button ng-show="!isOwnerOfProfile" type="button" class="btn">Seguir</button>
+            <button ng-show="!isOwnerOfProfile" type="button" class="btn">Agregar Amigo</button>
             <button ng-show="!isOwnerOfProfile" type="button" class="btn"><span class="glyphicon glyphicon-envelope"></span></button>
             <a ui-sref="createMap"><button ng-show="isOwnerOfProfile" type="button" class="btn">Crear Viaje</button></a>
           </div>
           <div class="profile-usermenu">
             <ul class="list-group">
-              <li class="list-group-item text-right"><span class="pull-left"><strong>Viajes</strong></span>{{travelsSize}}</li>
-              <li class="list-group-item text-right"><span class="pull-left"><strong>Seguidores</strong></span> 125</li>
-              <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+              <li class="list-group-item text-right" ng-class="activeTravels" ng-click="showTravels()"><span class="pull-left"><strong>Viajes</strong></span>{{travelsSize}}</li>
+              <li class="list-group-item text-right" ng-class="activeFavs" ng-click="showFavourites()"><span class="pull-left"><strong>Favoritos</strong></span>{{favsSize}}</li>
             </ul>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading"><strong>Acerca de {{shortUserName}}</strong></div>
-            <div class="panel-body">
-              Amo viajar, estar con amigos y conocer lugares nuevos! Espero que te sirvan de guia mis viajes.
-            </div>
           </div>
         </div>
       </div>
 
       <!--Columna grande-->
       <div class="col-sm-9" contenteditable="false">
-        <div class="panel panel-default target">
+        <div class="panel panel-default target" ng-show="isSelectedTravels">
           <div class="panel-heading" contenteditable="false">Viajes realizados</div>
           <div class="panel-body">
             <div ng-repeat="travel in travels">
               <div class="col-md-4">
-                <a ui-sref="viewTravel({id: travel.id})">
+                <a ui-sref="viewTravel({id: travel.id, favourite: false})">
                   <div class="thumbnail profileThumbnails">
                     <div class="caption">
                       <h3>{{travel.title}}</h3>
@@ -59,6 +52,27 @@
                 </div>
               </div>
             </div>              
+          </div>
+        </div>
+
+        <div class="panel panel-default target" ng-show="isSelectedFavs">
+          <div class="panel-heading" contenteditable="false">Viajes favoritos</div>
+          <div class="panel-body">
+            <div ng-repeat="travel in favouriteTravels">
+              <div class="col-md-4">
+                <a ui-sref="viewTravel({id: travel.id, favourite: true})">
+                  <div class="thumbnail profileThumbnails">
+                    <div class="caption">
+                      <h3>{{travel.title}}</h3>
+                      <p>{{travel.summary}}</p>
+                    </div>
+                  </div>
+                </a>
+                <div class="btnCrudProfile">
+                  <button ng-show="isOwnerOfProfile" ng-click="removeTravelFromFavs(travel)" type="button" class="btn"><span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

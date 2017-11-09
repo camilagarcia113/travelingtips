@@ -1,11 +1,10 @@
 package unq.tip.travelingtips.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import unq.tip.travelingtips.controllers.pojo.MarkerPojo;
+import unq.tip.travelingtips.controllers.pojo.TravelPojo;
 import unq.tip.travelingtips.model.Travel;
 import unq.tip.travelingtips.services.TravelService;
 
@@ -42,9 +41,10 @@ public class TravelController {
         travelService.deleteTravel(travelId);
     }
 
-    @RequestMapping(value = "/findTravels/{title}")
-    public @ResponseBody List<Travel> findTravels(@PathVariable("title") String title) {
-        return travelService.getTravelsByTitle(title);
+    @RequestMapping(value = "/findTravels/{user}/{title}")
+    public @ResponseBody List<Travel> findTravels(@PathVariable("user") String user,
+                                                  @PathVariable("title") String title) {
+        return travelService.getTravelsByTitle(user, title);
     }
 
     @RequestMapping(value = "/findTravelsMap", consumes = "application/json", method = RequestMethod.POST)

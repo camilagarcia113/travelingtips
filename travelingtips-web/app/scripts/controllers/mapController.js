@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('MapController', function($scope, $http, Travel, userService, alertService, mapAction, $rootScope, $state) {
+app.controller('MapController', function($scope, $http, Travel, alertService, mapAction, $rootScope, $state) {
 
   var labelNumber = 1;
   $scope.mapMarkers = [];
@@ -10,6 +10,7 @@ app.controller('MapController', function($scope, $http, Travel, userService, ale
   $scope.isMapMarked = false;
   $scope.travelTitle = "";
   $scope.travelSummary = "";
+  $scope.user = sessionStorage.getItem('userID');
 
   $scope.hoveringOver = function(value) {
     $scope.overStar = value;
@@ -140,7 +141,7 @@ app.controller('MapController', function($scope, $http, Travel, userService, ale
         method: "POST",
         url: "http://localhost:8080/travels",
         data: {
-          user: userService.getID(),
+          user: $scope.user,
           title: Travel.getTitle(),
           summary: Travel.getSummary(),
           markers: Travel.getMarkers(),

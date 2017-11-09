@@ -19,4 +19,5 @@ public interface TravelRepository extends CrudRepository<Travel, Long> {
 
     @Query("SELECT s FROM Travel s LEFT JOIN s.placesVisited q WHERE :latitude = q.latitude AND :longitude = q.longitude")
     List<Travel> findTravelByPlacesVisited(@Param("latitude") String latitude, @Param("longitude") String longitude);
+
 }

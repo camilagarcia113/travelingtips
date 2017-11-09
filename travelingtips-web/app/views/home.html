@@ -3,25 +3,50 @@
 <div class="container-fluid" ng-controller="HomeController">
     <div class="row">
         <div class="col-sm-6" contenteditable="false">
-            <div class="panel panel-default target homePanel">
-                <div class="panel-heading" contenteditable="false">Buscador de viajes</div>
-                <h5>Ingresa algun lugar al que quieras ir y mira lo que hicieron otros</h5>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Proba con: Londres" ng-model="wordsInTitle">
-                                <span class="input-group-btn">
+
+            <uib-accordion close-others="oneAccordionAtATime">
+                <div uib-accordion-group class="panel panel-default target homePanel" is-open="status.open">
+                    <uib-accordion-heading>
+                        Buscador de viajes <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                    </uib-accordion-heading>
+                    <h5>Ingresa algun lugar al que quieras ir y mira lo que hicieron otros</h5>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Proba con: Londres" ng-model="input.title">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" ng-click="findTravelsFromInput()"><span class="glyphicon glyphicon-search"></span></button>
                                 </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <div uib-accordion-group class="panel panel-default target homePanel" is-open="status.isFirstOpen">
+                    <uib-accordion-heading>
+                        Buscador de viajeros <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></i>
+                    </uib-accordion-heading>
+                    <h5>Ingresa el <b>nombre</b> de algun amigo y mira sus viajes</h5>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Proba con: Ricky Fort"  ng-model="input.friend">
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="findFriendFromInput()"><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </uib-accordion>
+
             <div class="panel panel-default target homePanel">
                 <div class="panel-heading" contenteditable="false">Buscador por lugares</div>
-                <h5>Marca un punto que te interese en el mapa y mira quienes pasaron por ahi </h5>
+                <h5>Marca un punto que te interese en el mapa y mira quienes pasaron por ahi</h5>
                 <div class="panel-body">
                     <input id="pac-input" class="controls" type="text" placeholder="Busca un lugar para marcar">
                     <div id="map"></div>
@@ -30,16 +55,36 @@
         </div>
 
         <div class="col-sm-5" contenteditable="false">
-            <div class="panel panel-default target homePanel" ng-show="foundTravels.length > 0">
+            <div class="panel panel-default target homePanel" ng-show="status.open || foundTravels.length > 0">
                 <div class="panel-heading" contenteditable="false">Viajes encontrados: </div>
                 <div class="panel-body">
                     <div ng-repeat="travel in foundTravels">
                         <div class="col-md-4">
-                            <a ui-sref="viewTravel({id: travel.id})">
+                            <a ui-sref="viewTravel({id: travel.id, favourite: false})">
                                 <div class="thumbnail">
                                     <div class="caption">
                                         <h3>{{travel.title}}</h3>
                                         <p>{{travel.summary}}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-5" contenteditable="false">
+            <div class="panel panel-default target homePanel" ng-show="foundFriends.length > 0 && status.isFirstOpen">
+                <div class="panel-heading" contenteditable="false">Viajeros encontrados: </div>
+                <div class="panel-body">
+                    <div ng-repeat="friend in foundFriends">
+                        <div class="col-md-4">
+                            <a ui-sref="userProfile({token: friend.token})">
+                                <div class="thumbnail">
+                                    <div class="caption">
+                                        <img src="{{friend.photoUrl}}" class="profile-userpic-thumbnail" alt="">
+                                        <h3>{{friend.name}}</h3>
                                     </div>
                                 </div>
                             </a>
