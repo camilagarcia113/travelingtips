@@ -14,16 +14,16 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   $scope.isSelectedTravels = true;
   $scope.isSelectedFavs = false;
 
-  var getUser = function(userId) {
+  var getUser = function(userToken) {
     $http({
       method: 'GET',
-      url: 'http://localhost:8080/user/' + userId
+      url: 'http://localhost:8080/user/' + userToken
     }).then(function(result) {
       $scope.user = result.data;
       $scope.shortUserName = $scope.user.name.split(" ")[0];
       $scope.userPhoto = decodeURIComponent($scope.user.photoUrl);
 
-      if(userId == $scope.loggedId) {
+      if(userToken == $scope.loggedId) {
         $scope.isOwnerOfProfile = true;
       }
 
@@ -35,7 +35,7 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   function getUserTravels() {
   	$http({
   		method: 'GET',
-  		url: 'http://localhost:8080/travels?user=' + $scope.user.id
+  		url: 'http://localhost:8080/travels?user=' + $scope.user.token
   	}).then(function(result) {
       $scope.travels = result.data;
       $scope.travelsSize = $scope.travels.length;
@@ -45,7 +45,7 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   function getFavouriteTravels() {
   	$http({
   		method: 'GET',
-   		url: 'http://localhost:8080/favouriteTravels?user=' + $scope.user.id
+   		url: 'http://localhost:8080/favouriteTravels?user=' + $scope.user.token
    	}).then(function(result) {
       $scope.favouriteTravels = result.data;
       $scope.favsSize = $scope.favouriteTravels.length;
@@ -65,7 +65,7 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   $scope.removeTravelFromFavs = function(travel) {
     $http({
       method: 'POST',
-      url: 'http://localhost:8080/deleteFavouriteTravel/' + travel.id + '/' + $scope.user.id
+      url: 'http://localhost:8080/deleteFavouriteTravel/' + travel.id + '/' + $scope.user.token
     }).then(function(result) {
       getFavouriteTravels();
     });
@@ -87,6 +87,6 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
     getFavouriteTravels();
   }
 
-  getUser($stateParams.id);
+  getUser($stateParams.token);
 
 });

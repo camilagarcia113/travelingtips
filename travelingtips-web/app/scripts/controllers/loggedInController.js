@@ -6,18 +6,14 @@ app.controller('LoggedInController', function($scope, $state, $http, alertServic
   function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     sessionStorage.setItem('userID', profile.getId());
-//    sessionStorage.setItem('userName', profile.getName());
-//    sessionStorage.setItem('userImgURL', profile.getImageUrl());
-//    sessionStorage.setItem('userEmail', profile.getEmail());
 
     $http({
       method: "POST",
       url: "http://localhost:8080/user",
       data: {
-        id: profile.getId(),
+        token: profile.getId(),
         name: profile.getName(),
         photoUrl: encodeURIComponent(profile.getImageUrl()),
-        email: encodeURIComponent(profile.getEmail())
       },
       headers: {
         'Content-Type': 'application/json'
@@ -35,6 +31,7 @@ app.controller('LoggedInController', function($scope, $state, $http, alertServic
       sessionStorage.clear();
     });
     $scope.isLoggedIn = false;
+    location.reload();
   }
 
   window.onSignIn = onSignIn;

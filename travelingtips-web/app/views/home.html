@@ -80,7 +80,7 @@
                 <div class="panel-body">
                     <div ng-repeat="friend in foundFriends">
                         <div class="col-md-4">
-                            <a ui-sref="userProfile({id: friend.id})">
+                            <a ui-sref="userProfile({token: friend.token})">
                                 <div class="thumbnail">
                                     <div class="caption">
                                         <img src="{{friend.photoUrl}}" class="profile-userpic-thumbnail" alt="">

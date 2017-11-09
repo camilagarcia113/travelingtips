@@ -1,42 +1,49 @@
 package unq.tip.travelingtips.model;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class User implements Serializable{
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ID", "TOKEN"})})
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+
+    private String token;
     private String name;
     private String photoUrl;
-    private String email;
 
-    @ElementCollection
-    private List<Long> favouriteTravels;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Travel> favouriteTravels;
 
     public User() {}
 
-    public User(String anId, String aName, String aUrl, String anEmail) {
-        id = anId;
+    public User(String aToken, String aName, String aUrl) {
+        token = aToken;
         name = aName;
         photoUrl = aUrl;
-        email = anEmail;
-        favouriteTravels = new ArrayList<>();
     }
 
-    public String getId() {
-        return id;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getName() {
@@ -55,27 +62,19 @@ public class User implements Serializable{
         this.photoUrl = photoUrl;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<Long> getFavouriteTravels() {
+    public List<Travel> getFavouriteTravels() {
         return favouriteTravels;
     }
 
-    public void setFavouriteTravels(List<Long> favouriteTravels) {
+    public void setFavouriteTravels(List<Travel> favouriteTravels) {
         this.favouriteTravels = favouriteTravels;
     }
 
-    public void addFavouriteTravel(Long travelId) {
-        favouriteTravels.add(travelId);
+    public void addFavouriteTravel(Travel travel) {
+        favouriteTravels.add(travel);
     }
 
-    public void removeFavouriteTravel(Long travelId) {
-        favouriteTravels.remove(travelId);
+    public void removeFavouriteTravel(Travel travel) {
+        favouriteTravels.remove(travel);
     }
 }

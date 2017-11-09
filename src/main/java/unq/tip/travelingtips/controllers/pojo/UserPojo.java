@@ -1,18 +1,32 @@
 package unq.tip.travelingtips.controllers.pojo;
 
+import unq.tip.travelingtips.model.Travel;
+
+import java.util.List;
+
 public class UserPojo {
 
-    private String id;
+    private Long id;
+    private String token;
     private String name;
     private String photoUrl;
-    private String email;
+    private List<Travel> favouriteTravels;
 
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getName() {
@@ -31,11 +45,11 @@ public class UserPojo {
         this.photoUrl = photoUrl;
     }
 
-    public String getEmail() {
-        return email;
+    public List<Travel> getFavouriteTravels() {
+        return favouriteTravels;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFavouriteTravels(List<Travel> favouriteTravels) {
+        this.favouriteTravels = favouriteTravels;
     }
 }

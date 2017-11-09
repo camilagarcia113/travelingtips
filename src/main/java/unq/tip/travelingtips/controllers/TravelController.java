@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import unq.tip.travelingtips.controllers.pojo.MarkerPojo;
+import unq.tip.travelingtips.controllers.pojo.TravelPojo;
 import unq.tip.travelingtips.model.Travel;
 import unq.tip.travelingtips.services.TravelService;
 

@@ -24,7 +24,7 @@ app.config(function($stateProvider) {
 
   var userProfileState = {
     name: 'userProfile',
-    url: '/userProfile/:id',
+    url: '/userProfile/:token',
     templateUrl: 'views/userProfile.html',
   };
 

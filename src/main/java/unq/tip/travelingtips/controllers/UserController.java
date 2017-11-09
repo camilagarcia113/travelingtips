@@ -17,14 +17,16 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(value = "/user", consumes = "application/json", method = RequestMethod.POST)
-    public @ResponseBody void saveMarkedTravel(@RequestBody UserPojo data) {
-        userService.saveUser(data);
+    public @ResponseBody void saveUser(@RequestBody UserPojo data) {
+        if(! userService.existsToken(data.getToken())) {
+            userService.saveUser(data);
+        }
     }
 
-    @RequestMapping("/user/{id}")
+    @RequestMapping("/user/{token}")
     public @ResponseBody
-    User getUser(@PathVariable("id") String userId) {
-        return userService.getUser(userId);
+    User getUser(@PathVariable("token") String userToken) {
+        return userService.getUser(userToken);
     }
 
     @RequestMapping(value = "/findFriends/{name}")

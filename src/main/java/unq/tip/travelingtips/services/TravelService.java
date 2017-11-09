@@ -3,7 +3,7 @@ package unq.tip.travelingtips.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unq.tip.travelingtips.controllers.pojo.MarkerPojo;
-import unq.tip.travelingtips.controllers.TravelPojo;
+import unq.tip.travelingtips.controllers.pojo.TravelPojo;
 import unq.tip.travelingtips.model.Travel;
 import unq.tip.travelingtips.repositories.TravelRepository;
 
@@ -18,6 +18,11 @@ public class TravelService {
 
     public void saveTravel(TravelPojo travel) {
         Travel newTravel = new Travel(travel.getUser(), travel.getTitle(), travel.getSummary(), travel.getMarkers());
+        travelRepository.save(newTravel);
+    }
+
+    public void updateTravel(TravelPojo travel) {
+        Travel newTravel = new Travel(travel.getId(), travel.getUser(), travel.getTitle(), travel.getSummary(), travel.getMarkers());
         travelRepository.save(newTravel);
     }
 
@@ -40,11 +45,6 @@ public class TravelService {
     public List<Travel> getTravelsByPlace(MarkerPojo marker) {
         List<Travel> travels = (List<Travel>) travelRepository.findAll();
         return getNearTravelsFromMarker(marker, travels);
-    }
-
-    public void updateTravel(TravelPojo travel) {
-        Travel newTravel = new Travel(travel.getId(), travel.getUser(), travel.getTitle(), travel.getSummary(), travel.getMarkers());
-        travelRepository.save(newTravel);
     }
 
     private List<Travel> getNearTravelsFromMarker(MarkerPojo marker, List<Travel> travels) {
