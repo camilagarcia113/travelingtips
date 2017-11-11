@@ -1,6 +1,7 @@
 package unq.tip.travelingtips.controllers.pojo;
 
 import unq.tip.travelingtips.model.Travel;
+import unq.tip.travelingtips.model.User;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class UserPojo {
     private String name;
     private String photoUrl;
     private List<Travel> favouriteTravels;
+    private List<User> friends;
 
 
     public Long getId() {
@@ -51,5 +53,13 @@ public class UserPojo {
 
     public void setFavouriteTravels(List<Travel> favouriteTravels) {
         this.favouriteTravels = favouriteTravels;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
     }
 }

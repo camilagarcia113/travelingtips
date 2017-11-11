@@ -8,6 +8,7 @@ import unq.tip.travelingtips.model.User;
 import unq.tip.travelingtips.repositories.TravelRepository;
 import unq.tip.travelingtips.repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,10 +40,6 @@ public class UserService {
         userRepository.save(userFound);
     }
 
-    public List<Travel> getFavourites(String userToken) {
-        return userRepository.findByToken(userToken).getFavouriteTravels();
-    }
-
     public void deleteFavouriteTravel(Long travelId, String userToken) {
         User user = userRepository.findByToken(userToken);
         Travel travel = travelRepository.findOne(travelId);
@@ -50,8 +47,33 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public List<Travel> getFavourites(String userToken) {
+        return userRepository.findByToken(userToken).getFavouriteTravels();
+    }
+
     public boolean existsToken(String token) {
         User userFound = userRepository.findByToken(token);
         return userFound != null;
+    }
+
+    public void addFriend(String userToken, String friendToken) {
+        User userFound = userRepository.findByToken(userToken);
+        userFound.addFriend(friendToken);
+        userRepository.save(userFound);
+    }
+
+    public void deleteFriend(String userToken, String friendToken) {
+        User userFound = userRepository.findByToken(userToken);
+        userFound.removeFriend(friendToken);
+        userRepository.save(userFound);
+    }
+
+    public List<User> getFriends(String userToken) {
+        List<User> friends = new ArrayList<>();
+        List<String> friendsToken = userRepository.findByToken(userToken).getFriends();
+        for(String friend : friendsToken) {
+            friends.add(userRepository.findByToken(friend));
+        }
+        return friends;
     }
 }

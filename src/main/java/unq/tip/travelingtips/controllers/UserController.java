@@ -52,4 +52,20 @@ public class UserController {
         userService.deleteFavouriteTravel(travelId, user);
     }
 
+    @RequestMapping(value = "/addFriend/{user}/{friend}", method = RequestMethod.POST)
+    public @ResponseBody void addToFavourites(@PathVariable("user") String user,
+                                              @PathVariable("friend") String friend) {
+        userService.addFriend(user, friend);
+    }
+
+    @RequestMapping(value = "/deleteFriend/{user}/{friend}", method = RequestMethod.POST)
+    public @ResponseBody void deleteFavouriteTravel(@PathVariable("user") String user,
+                                                    @PathVariable("friend") String friend) {
+        userService.deleteFriend(user, friend);
+    }
+
+    @RequestMapping("/friends")
+    public @ResponseBody List<User> getFriends(@RequestParam(value="user", required=true) String userId) {
+        return userService.getFriends(userId);
+    }
 }

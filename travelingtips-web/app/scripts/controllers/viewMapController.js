@@ -22,6 +22,7 @@ app.controller('ViewMapController', function($scope, $http, mapAction, $statePar
 
   var drawMapMarkers = function() {
     var markers = $scope.travel.placesVisited;
+    var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(parseFloat(markers[i].latitude), parseFloat(markers[i].longitude)),
@@ -31,8 +32,10 @@ app.controller('ViewMapController', function($scope, $http, mapAction, $statePar
         comment: markers[i].comment
       });
       addInfoWindow(marker);
+      bounds.extend(marker.getPosition());
     }
-    mapAction.setMapCenter($scope.mapView, markers[0]);
+    //mapAction.setMapCenter($scope.mapView, markers[0]);
+    $scope.mapView.fitBounds(bounds);
 
   }
 

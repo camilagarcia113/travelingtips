@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ID", "TOKEN"})})
+//@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ID", "TOKEN"})})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,6 +22,9 @@ public class User implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Travel> favouriteTravels;
 
+    @ElementCollection
+    private List<String> friends;
+
     public User() {}
 
     public User(String aToken, String aName, String aUrl) {
@@ -32,6 +35,10 @@ public class User implements Serializable {
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
@@ -76,5 +83,21 @@ public class User implements Serializable {
 
     public void removeFavouriteTravel(Travel travel) {
         favouriteTravels.remove(travel);
+    }
+
+    public List<String> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<String> friends) {
+        this.friends = friends;
+    }
+
+    public void addFriend(String friend) {
+        friends.add(friend);
+    }
+
+    public void removeFriend(String friend) {
+        friends.remove(friend);
     }
 }

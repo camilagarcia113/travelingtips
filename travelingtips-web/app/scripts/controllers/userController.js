@@ -7,12 +7,23 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   $scope.user = {}
   $scope.travels = [];
   $scope.favouriteTravels = [];
+  $scope.friends = [];
   $scope.travelsSize = 0;
   $scope.favsSize = 0;
+  $scope.friendsSize = 0;
   $scope.activeTravels = "active";
   $scope.activeFavs = "";
+  $scope.activeFriends = "";
   $scope.isSelectedTravels = true;
   $scope.isSelectedFavs = false;
+  $scope.isSelectedFriends = false;
+
+  var decodePhotoUrlsFrom = function(listOfFriends) {
+    listOfFriends.map(function(f) {
+      f.photoUrl = decodeURIComponent(f.photoUrl);
+    });
+    return listOfFriends;
+  }
 
   var getUser = function(userToken) {
     $http({
@@ -28,7 +39,8 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
       }
 
       getUserTravels();
-      getFavouriteTravels()
+      getFavouriteTravels();
+      getUserFriends();
     });
   }
 
@@ -52,6 +64,16 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
     });
   }
 
+  function getUserFriends() {
+  	$http({
+      method: 'GET',
+      url: 'http://localhost:8080/friends?user=' + $scope.user.token
+    }).then(function(result) {
+      $scope.friends = decodePhotoUrlsFrom(result.data);
+      $scope.friendsSize = $scope.friends.length;
+    });
+  }
+
   $scope.deleteTravel = function(travel) {
     $http({
       method: 'POST',
@@ -71,20 +93,47 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
     });
   }
 
+  $scope.deleteFriend = function(friend) {
+    $http({
+      method: 'POST',
+      url: 'http://localhost:8080/deleteFriend/' + $scope.loggedId + '/' + friend
+    }).then(function(result) {
+      alertService.showSuccessAlert('Amigo borrado');
+      getUserFriends();
+    });
+  }
+
+  $scope.addFriend = function(friendToken) {
+    $http({
+      method: 'POST',
+      url: 'http://localhost:8080/addFriend/' + $scope.loggedId + '/' + friendToken
+    }).then(function(result) {
+      alertService.showSuccessAlert('Agregado!');
+    });
+  }
+
   $scope.showTravels = function() {
-    $scope.activeTravels = "active";
-    $scope.isSelectedTravels = true;
-    $scope.activeFavs = "";
-    $scope.isSelectedFavs = false;
+    manageSections("active", true, "", false, "", false);
     getUserTravels();
   }
 
   $scope.showFavourites = function() {
-    $scope.activeTravels = "";
-    $scope.isSelectedTravels = false;
-    $scope.activeFavs = "active";
-    $scope.isSelectedFavs = true;
+    manageSections("", false, "active", true, "", false);
     getFavouriteTravels();
+  }
+
+  $scope.showFriends = function() {
+    manageSections("", false, "", false, "active", true);
+    getFavouriteTravels();
+  }
+
+  var manageSections = function(activeTravel, selectedTravel, activeFav, selectedFav, activeFriend, selectedFriend) {
+      $scope.activeTravels = activeTravel;
+      $scope.isSelectedTravels = selectedTravel;
+      $scope.activeFavs = activeFav;
+      $scope.isSelectedFavs = selectedFav;
+      $scope.activeFriends = activeFriend;
+      $scope.isSelectedFriends = selectedFriend;
   }
 
   getUser($stateParams.token);

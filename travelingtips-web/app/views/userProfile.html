@@ -16,14 +16,14 @@
             <div class="profile-usertitle-name">{{user.name}}</div>
           </div>
           <div class="profile-userbuttons">
-            <button ng-show="!isOwnerOfProfile" type="button" class="btn">Agregar Amigo</button>
-            <button ng-show="!isOwnerOfProfile" type="button" class="btn"><span class="glyphicon glyphicon-envelope"></span></button>
+            <button ng-show="!isOwnerOfProfile" type="button" class="btn" ng-click="addFriend(user.token)">Agregar Amigo</button>
             <a ui-sref="createMap"><button ng-show="isOwnerOfProfile" type="button" class="btn">Crear Viaje</button></a>
           </div>
           <div class="profile-usermenu">
             <ul class="list-group">
               <li class="list-group-item text-right" ng-class="activeTravels" ng-click="showTravels()"><span class="pull-left"><strong>Viajes</strong></span>{{travelsSize}}</li>
               <li class="list-group-item text-right" ng-class="activeFavs" ng-click="showFavourites()"><span class="pull-left"><strong>Favoritos</strong></span>{{favsSize}}</li>
+              <li class="list-group-item text-right" ng-class="activeFriends" ng-click="showFriends()"><span class="pull-left"><strong>Amigos</strong></span>{{friendsSize}}</li>
             </ul>
           </div>
         </div>
@@ -72,6 +72,28 @@
                   <button ng-show="isOwnerOfProfile" ng-click="removeTravelFromFavs(travel)" type="button" class="btn"><span class="glyphicon glyphicon-remove"></span></button>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default target" ng-show="isSelectedFriends">
+          <div class="panel-heading" contenteditable="false">Amigos</div>
+          <div class="panel-body">
+            <div ng-repeat="friend in friends">
+              <div class="col-sm-2">
+                <a ui-sref="userProfile({token: friend.token})">
+                  <div class="thumbnail">
+                    <div class="caption">
+                      <img src="{{friend.photoUrl}}" class="profile-userpic-thumbnail" alt="">
+                      <h3>{{friend.name}}</h3>
+                    </div>
+                  </div>
+                </a>
+                <div class="btnCrudProfile">
+                  <button ng-show="isOwnerOfProfile" ng-click="deleteFriend(friend.token)" type="button" class="btn"><span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+              </div>
+            </div>
             </div>
           </div>
         </div>
