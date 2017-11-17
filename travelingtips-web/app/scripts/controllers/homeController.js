@@ -104,14 +104,14 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
     if($scope.input.friend !== undefined && $scope.input.friend !== "") {
       $http({
         method: 'GET',
-        url: 'http://localhost:8080/findFriends/' + $scope.input.friend
+        url: 'http://localhost:8080/findFriends/' + $scope.input.friend + '/' + $scope.user
       }).then(function(result) {
         if(result.data.length > 0) {
           $scope.foundFriends = decodePhotoUrlsFrom(result.data);
           $scope.friendsInput = $scope.input.friend;
           $scope.input.friend = "";
         } else {
-          alertService.showWarningAlert('No existe un viajero con ese nombre. Proba otro!');
+          alertService.showWarningAlert('No se encontro un viajero con ese nombre. Proba otro!');
         }
       });
     } else {
@@ -122,7 +122,7 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
   $scope.findTravelsFromMap = function(location) {
     $http({
       method: 'POST',
-      url: 'http://localhost:8080/findTravelsMap/',
+      url: 'http://localhost:8080/findTravelsMap/' + $scope.user,
       data: {
         latitude: location.lat().toString(),
         longitude: location.lng().toString()

@@ -16,7 +16,7 @@
             <div class="profile-usertitle-name">{{user.name}}</div>
           </div>
           <div class="profile-userbuttons">
-            <button ng-show="!isOwnerOfProfile" type="button" class="btn" ng-click="addFriend(user.token)">Agregar Amigo</button>
+            <button ng-show="!isOwnerOfProfile" ng-disabled="!isFriend" type="button" class="btn" ng-click="addFriend(user)">Agregar Amigo</button>
             <a ui-sref="createMap"><button ng-show="isOwnerOfProfile" type="button" class="btn">Crear Viaje</button></a>
           </div>
           <div class="profile-usermenu">
@@ -81,7 +81,7 @@
           <div class="panel-body">
             <div ng-repeat="friend in friends">
               <div class="col-sm-2">
-                <a ui-sref="userProfile({token: friend.token})">
+                <a ui-sref="userProfile({token: friend.token, friend: true})">
                   <div class="thumbnail">
                     <div class="caption">
                       <img src="{{friend.photoUrl}}" class="profile-userpic-thumbnail" alt="">

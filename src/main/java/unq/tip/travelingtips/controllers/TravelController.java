@@ -47,8 +47,9 @@ public class TravelController {
         return travelService.getTravelsByTitle(user, title);
     }
 
-    @RequestMapping(value = "/findTravelsMap", consumes = "application/json", method = RequestMethod.POST)
-    public @ResponseBody List<Travel> findTravelsMap(@RequestBody MarkerPojo location) {
-        return travelService.getTravelsByPlace(location);
+    @RequestMapping(value = "/findTravelsMap/{user}", consumes = "application/json", method = RequestMethod.POST)
+    public @ResponseBody List<Travel> findTravelsMap(@PathVariable("user") String user,
+                                                     @RequestBody MarkerPojo location) {
+        return travelService.getTravelsByPlace(user, location);
     }
 }

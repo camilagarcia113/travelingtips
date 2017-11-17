@@ -4,7 +4,8 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
 
   $scope.isOwnerOfProfile = false;
   $scope.loggedId = sessionStorage.getItem('userID');
-  $scope.user = {}
+  $scope.user = {};
+  $scope.loggedUser = {};
   $scope.travels = [];
   $scope.favouriteTravels = [];
   $scope.friends = [];
@@ -17,6 +18,7 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   $scope.isSelectedTravels = true;
   $scope.isSelectedFavs = false;
   $scope.isSelectedFriends = false;
+  $scope.isFriend = false;
 
   var decodePhotoUrlsFrom = function(listOfFriends) {
     listOfFriends.map(function(f) {
@@ -25,7 +27,7 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
     return listOfFriends;
   }
 
-  var getUser = function(userToken) {
+  var getUser = function(userToken, friend) {
     $http({
       method: 'GET',
       url: 'http://localhost:8080/user/' + userToken
@@ -37,6 +39,8 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
       if(userToken == $scope.loggedId) {
         $scope.isOwnerOfProfile = true;
       }
+
+      $scope.isFriend = friend === "false";
 
       getUserTravels();
       getFavouriteTravels();
@@ -103,11 +107,12 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
     });
   }
 
-  $scope.addFriend = function(friendToken) {
+  $scope.addFriend = function(friend) {
     $http({
       method: 'POST',
-      url: 'http://localhost:8080/addFriend/' + $scope.loggedId + '/' + friendToken
+      url: 'http://localhost:8080/addFriend/' + $scope.loggedId + '/' + friend.token
     }).then(function(result) {
+      $scope.isFriend = false;
       alertService.showSuccessAlert('Agregado!');
     });
   }
@@ -136,6 +141,6 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
       $scope.isSelectedFriends = selectedFriend;
   }
 
-  getUser($stateParams.token);
+  getUser($stateParams.token, $stateParams.friend);
 
 });

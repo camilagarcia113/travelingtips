@@ -29,10 +29,10 @@ public class UserController {
         return userService.getUser(userToken);
     }
 
-    @RequestMapping(value = "/findFriends/{name}")
+    @RequestMapping(value = "/findFriends/{name}/{userToken}")
     public @ResponseBody
-    List<User> findFriends(@PathVariable("name") String name) {
-        return userService.findByName(name);
+    List<User> findFriends(@PathVariable("name") String name, @PathVariable("userToken") String userToken) {
+        return userService.findByName(name, userToken);
     }
 
     @RequestMapping(value = "/addToFavourites/{id}/{user}", method = RequestMethod.POST)

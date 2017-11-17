@@ -34,7 +34,6 @@ app.controller('ViewMapController', function($scope, $http, mapAction, $statePar
       addInfoWindow(marker);
       bounds.extend(marker.getPosition());
     }
-    //mapAction.setMapCenter($scope.mapView, markers[0]);
     $scope.mapView.fitBounds(bounds);
 
   }

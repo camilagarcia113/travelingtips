@@ -10,6 +10,7 @@ import unq.tip.travelingtips.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -29,8 +30,9 @@ public class UserService {
         return userRepository.findByToken(userToken);
     }
 
-    public List<User> findByName(String name) {
-        return userRepository.findByNameContainingIgnoreCase(name);
+    public List<User> findByName(String name, String userToken) {
+        User user = userRepository.findByToken(userToken);
+        return filterIfFriend(userRepository.findByNameContainingIgnoreCase(name), user);
     }
 
     public void addToFavourites(Long travel, String userToken) {
@@ -75,5 +77,11 @@ public class UserService {
             friends.add(userRepository.findByToken(friend));
         }
         return friends;
+    }
+
+    private List<User> filterIfFriend(List<User> users, User user) {
+        return users.stream()
+                .filter(element -> ! user.getFriends().contains(element))
+                .collect(Collectors.toList());
     }
 }

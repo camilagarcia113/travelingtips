@@ -39,12 +39,12 @@ public class TravelService {
     }
 
     public List<Travel> getTravelsByTitle(String user, String title) {
-        return filterByUser( travelRepository.findByTitleContainingIgnoreCase(title), user);
+        return filterByUser(travelRepository.findByTitleContainingIgnoreCase(title), user);
     }
 
-    public List<Travel> getTravelsByPlace(MarkerPojo marker) {
+    public List<Travel> getTravelsByPlace(String user, MarkerPojo marker) {
         List<Travel> travels = (List<Travel>) travelRepository.findAll();
-        return getNearTravelsFromMarker(marker, travels);
+        return filterByUser(getNearTravelsFromMarker(marker, travels), user);
     }
 
     private List<Travel> getNearTravelsFromMarker(MarkerPojo marker, List<Travel> travels) {
