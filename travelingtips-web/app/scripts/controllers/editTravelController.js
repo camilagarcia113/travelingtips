@@ -1,9 +1,11 @@
 'use strict';
 
-app.controller('EditTravelController', function($scope, $http, Travel, mapAction, userService, $stateParams, $state, alertService) {
+app.controller('EditTravelController', function($scope, $http, Travel, mapAction, $stateParams, $state, alertService) {
 
   var labelNumber = 1;
   $scope.mapMarkers = [];
+  $scope.drawnMarkers = [];
+  $scope.user = sessionStorage.getItem('userID');
 
   $scope.hoveringOver = function(value) {
     $scope.overStar = value;
@@ -67,6 +69,7 @@ app.controller('EditTravelController', function($scope, $http, Travel, mapAction
 
   var drawMapMarkers = function() {
     var markers = $scope.travel.placesVisited;
+    var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(parseFloat(markers[i].latitude), parseFloat(markers[i].longitude)),
@@ -75,8 +78,21 @@ app.controller('EditTravelController', function($scope, $http, Travel, mapAction
         rating: markers[i].rating,
         comment: markers[i].comment
       });
+      $scope.drawnMarkers.push(marker);
+      bounds.extend(marker.getPosition());
     }
-    mapAction.setMapCenter($scope.map, markers[0]);
+    $scope.map.fitBounds(bounds);
+  }
+
+  $scope.deleteMarker = function(marker) {
+  var markerSequence = marker.sequence;
+/*  for (var i = 0; i < $scope.drawnMarkers.length; i++) {
+    if(i+1 === markerSequence) {
+      $scope.drawnMarkers[i].setMap(null);
+      $scope.drawnMarkers.splice(i);
+      $scope.travel.placesVisited.splice(i);
+    }
+  }*/
   }
 
   $scope.saveTravel = function() {
@@ -85,7 +101,7 @@ app.controller('EditTravelController', function($scope, $http, Travel, mapAction
       url: "http://localhost:8080/travels",
       data: {
         id: $scope.travel.id,
-        user: userService.getID(),
+        user: $scope.user,
         title: $scope.travel.title,
         summary: $scope.travel.summary,
         markers: $scope.travel.placesVisited,

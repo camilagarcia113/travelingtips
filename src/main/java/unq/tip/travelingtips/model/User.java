@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ID", "TOKEN"})})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,7 +18,7 @@ public class User implements Serializable {
     private String name;
     private String photoUrl;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Travel> favouriteTravels;
 
     @ElementCollection

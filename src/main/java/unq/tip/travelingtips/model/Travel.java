@@ -22,7 +22,7 @@ public class Travel implements Serializable {
 
     private String summary;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Marker> placesVisited;
 
     public Travel () {}

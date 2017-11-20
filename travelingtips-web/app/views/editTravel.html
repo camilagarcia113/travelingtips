@@ -26,8 +26,9 @@
                                 <span class="glyphicon glyphicon-map-marker"></span>
                                 {{marker.sequence}}
                             </span>
-                            <span class="input-group-addon" uib-rating ng-model="marker.rating" read-only="isReadonly" on-hover="hoveringOver(value)" aria-labelledby="default-rating"></span>
+                            <span class="input-group-addon editRating" uib-rating ng-model="marker.rating" read-only="isReadonly" on-hover="hoveringOver(value)" aria-labelledby="default-rating"></span>
                             </span>
+                            <button ng-click="deleteMarker(marker)" type="button" class="btn"><span class="glyphicon glyphicon-remove"></span></button>
                         </div>
                         <textarea class="form-control" rows="3" id="comment" maxlength="200"
                                   ng-model="marker.comment" placeholder="Escribi un comentario sobre el lugar!">
@@ -35,8 +36,12 @@
                     </div>
                 </div>
             </div>
-            <button id="saveTravel" type="button" class="btn btn-default"
-                    ng-click="saveTravel()">Save</button>
+            <a ui-sref="userProfile({token: user, friend: false})">
+                <button id="saveTravel" type="button" class="btn btn-default" ng-click="saveTravel()">Guardar</button>
+            </a>
+            <a ui-sref="userProfile({token: user, friend: false})">
+                <button id="cancelMap" type="button" class="btn btn-default">Cancelar</button>
+            </a>
         </div>
     </div>
 </div>
