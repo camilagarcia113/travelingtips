@@ -9,10 +9,14 @@ app.controller('ViewMapController', function($scope, $http, mapAction, $statePar
 
   $scope.mapView = mapAction.newMap('mapView');
 
+  var drawRatingStars = function(rating) {
+    return Array(rating + 1).join('<span class="glyphicon glyphicon-star"></span>');
+  }
+
   var addInfoWindow = function(marker) {
     var infoWindow = new google.maps.InfoWindow({
-      content: '<h5> <b>Rating:</b> ' + marker.rating + ' <span class="glyphicon glyphicon-star"></span></h5> <br>' +
-        '<h5> <b>Comment:</b> ' + marker.comment + '</h5>'
+      content: '<h4>' + drawRatingStars(marker.rating) + '</h4><br>' +
+        '<h4>' + marker.comment + '</h4>'
     });
 
     google.maps.event.addListener(marker, 'click', function () {

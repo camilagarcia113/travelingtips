@@ -18,7 +18,7 @@ public class User implements Serializable {
     private String name;
     private String photoUrl;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+    @ElementCollection
     private List<Travel> favouriteTravels;
 
     @ElementCollection

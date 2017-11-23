@@ -9,9 +9,6 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   $scope.travels = [];
   $scope.favouriteTravels = [];
   $scope.friends = [];
-  $scope.travelsSize = 0;
-  $scope.favsSize = 0;
-  $scope.friendsSize = 0;
   $scope.activeTravels = "active";
   $scope.activeFavs = "";
   $scope.activeFriends = "";
@@ -54,7 +51,6 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   		url: 'http://localhost:8080/travels?user=' + $scope.user.token
   	}).then(function(result) {
       $scope.travels = result.data;
-      $scope.travelsSize = $scope.travels.length;
     });
   }
 
@@ -64,7 +60,6 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
    		url: 'http://localhost:8080/favouriteTravels?user=' + $scope.user.token
    	}).then(function(result) {
       $scope.favouriteTravels = result.data;
-      $scope.favsSize = $scope.favouriteTravels.length;
     });
   }
 
@@ -74,7 +69,6 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
       url: 'http://localhost:8080/friends?user=' + $scope.user.token
     }).then(function(result) {
       $scope.friends = decodePhotoUrlsFrom(result.data);
-      $scope.friendsSize = $scope.friends.length;
     });
   }
 
@@ -142,5 +136,6 @@ app.controller('UserController', function($scope, $http, alertService, $state, $
   }
 
   getUser($stateParams.token, $stateParams.friend);
+  getUserTravels();
 
 });

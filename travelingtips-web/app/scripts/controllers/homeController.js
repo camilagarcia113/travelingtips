@@ -64,7 +64,6 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
       return;
     }
 
-    // If the place has a geometry, then present it on a map.
     if (place.geometry.viewport) {
       $scope.map.fitBounds(place.geometry.viewport);
     } else {
@@ -143,7 +142,7 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
 
   google.maps.event.addListener($scope.map, 'click', function(event) {
     if(! $scope.mapMarked) {
-      var marker = mapAction.drawMarker($scope.map, event.latLng, "");
+      var marker = mapAction.drawMarker($scope.map, event.latLng, "", 0, "");
       $scope.findTravelsFromMap(event.latLng);
       $scope.markers.push(marker);
       $scope.mapMarked = true;

@@ -1,7 +1,8 @@
 <div ng-include="'/views/header.html'"></div>
 
-<div ng-controller="EditTravelController">
-    <h1>Editando viaje: {{travel.title}}</h1>
+<div ng-controller="TravelController">
+    <h1 ng-show="isEditMode">Editando viaje: {{travel.title}}</h1>
+    <h1 ng-show="!isEditMode">Crea tu viaje:</h1>
     <div class="row">
         <div class="col-sm-6">
             <div class="panel panel-default">
@@ -17,9 +18,10 @@
         </div>
 
         <div class="col-sm-6">
-            <div class="panel panel-default">
+            <div class="panel panel-default" ng-show="isMapMarked">
                 <div class="panel-heading">Podes cambiar comentarios y/o ratings</div>
                 <div class="panel-body">
+                    <button id="deleteAll" type="button" class="btn btn-default" ng-click="deleteAllMarkers()">Borrar todos</button>
                     <div ng-repeat="marker in travel.placesVisited">
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -36,9 +38,7 @@
                     </div>
                 </div>
             </div>
-            <a ui-sref="userProfile({token: user, friend: false})">
-                <button id="saveTravel" type="button" class="btn btn-default" ng-click="saveTravel()">Guardar</button>
-            </a>
+            <button id="saveTravel" type="button" class="btn btn-default" ng-click="saveTravel()">Guardar</button>
             <a ui-sref="userProfile({token: user, friend: false})">
                 <button id="cancelMap" type="button" class="btn btn-default">Cancelar</button>
             </a>

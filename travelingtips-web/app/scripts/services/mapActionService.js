@@ -10,40 +10,38 @@ app.service('mapAction', function(alertService) {
       });
     }
 
-    this.changeGeolocation = function(map) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-
-          map.setCenter(pos);
-        }, function() {
-          alertService.showDangerAlert('OOOOPS! Hubo un problema con la Geolocalizacion');
-          map.setCenter(center);
-        });
-      } else {
-        alertService.showWarningAlert('Tu browser no soporta Geolocalizacion');
-      }
-    }
-
-    this.drawMarker = function(aMap, location, labelNumber) {
+    this.drawMarker = function(aMap, location, labelNumber, aRating, aComment) {
       var marker = new google.maps.Marker({
         position: location,
         label: labelNumber.toString(),
         map: aMap,
         draggable: true,
-        sequence: labelNumber
+        sequence: labelNumber,
+        rating: aRating,
+        comment: aComment
       });
       return marker;
     }
 
-    this.setMapCenter = function(map, marker) {
-      var pos = {
-        lat: parseFloat(marker.latitude),
-        lng: parseFloat(marker.longitude)
-      };
-      map.setCenter(pos);
+    this.arrangeMapMarkersSequence = function(sequenceNumber, mapMarkers) {
+      mapMarkers.splice((sequenceNumber - 1), 1);
+      for (var marker in mapMarkers) {
+        if (mapMarkers[marker].label > sequenceNumber) {
+          mapMarkers[marker].label -= 1;
+        }
+        if (mapMarkers[marker].sequence > sequenceNumber) {
+          mapMarkers[marker].sequence -= 1;
+        }
+      }
     }
+
+    this.removeAllMarkersFromMap = function(mapMarkers) {
+//      for (var marker in mapMarkers) {
+//        mapMarkers[marker].setMap(null);
+//      }
+      mapMarkers.map(function(marker) {
+        marker.setMap(null);
+      });
+    }
+
 });

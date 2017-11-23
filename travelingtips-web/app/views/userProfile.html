@@ -17,13 +17,14 @@
           </div>
           <div class="profile-userbuttons">
             <button ng-show="!isOwnerOfProfile" ng-disabled="!isFriend" type="button" class="btn" ng-click="addFriend(user)">Agregar Amigo</button>
-            <a ui-sref="createMap"><button ng-show="isOwnerOfProfile" type="button" class="btn">Crear Viaje</button></a>
+            <a ui-sref="travel({id: 0, isNew: true})"><button ng-show="isOwnerOfProfile" type="button" class="btn">Crear Viaje</button></a>
+            <!--<a ui-sref="createMap"><button ng-show="isOwnerOfProfile" type="button" class="btn">Crear Viaje</button></a>-->
           </div>
           <div class="profile-usermenu">
             <ul class="list-group">
-              <li class="list-group-item text-right" ng-class="activeTravels" ng-click="showTravels()"><span class="pull-left"><strong>Viajes</strong></span>{{travelsSize}}</li>
-              <li class="list-group-item text-right" ng-class="activeFavs" ng-click="showFavourites()"><span class="pull-left"><strong>Favoritos</strong></span>{{favsSize}}</li>
-              <li class="list-group-item text-right" ng-class="activeFriends" ng-click="showFriends()"><span class="pull-left"><strong>Amigos</strong></span>{{friendsSize}}</li>
+              <li class="list-group-item text-right" ng-class="activeTravels" ng-click="showTravels()"><span class="pull-left"><strong>Viajes</strong></span>{{travels.length}}</li>
+              <li class="list-group-item text-right" ng-class="activeFavs" ng-click="showFavourites()"><span class="pull-left"><strong>Favoritos</strong></span>{{favouriteTravels.length}}</li>
+              <li class="list-group-item text-right" ng-class="activeFriends" ng-click="showFriends()"><span class="pull-left"><strong>Amigos</strong></span>{{friends.length}}</li>
             </ul>
           </div>
         </div>
@@ -45,7 +46,7 @@
                   </div>
                 </a>
                 <div class="btnCrudProfile">
-                  <a ui-sref="editTravel({id: travel.id})">
+                  <a ui-sref="travel({id: travel.id, isNew: false})">
                     <button ng-show="isOwnerOfProfile" type="button" class="btn"><span class="glyphicon glyphicon-pencil"></span></button>
                   </a>
                   <button ng-show="isOwnerOfProfile" ng-click="deleteTravel(travel)" type="button" class="btn"><span class="glyphicon glyphicon-trash"></span></button>
@@ -80,7 +81,7 @@
           <div class="panel-heading" contenteditable="false">Amigos</div>
           <div class="panel-body">
             <div ng-repeat="friend in friends">
-              <div class="col-sm-2">
+              <div class="col-sm-3">
                 <a ui-sref="userProfile({token: friend.token, friend: true})">
                   <div class="thumbnail">
                     <div class="caption">

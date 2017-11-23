@@ -10,16 +10,10 @@ app.config(function($stateProvider) {
     templateUrl: 'views/home.html'
   };
 
-  var createMapState = {
-    name: 'createMap',
-    url: '/createMap',
-    templateUrl: 'views/createmap.html'
-  };
-
   var editTravelState = {
-    name: 'editTravel',
-    url: '/editTravel/:id',
-    templateUrl: 'views/editTravel.html'
+    name: 'travel',
+    url: '/travel/:id/:isNew',
+    templateUrl: 'views/travel.html'
   };
 
   var userProfileState = {
@@ -35,7 +29,6 @@ app.config(function($stateProvider) {
   };
 
   $stateProvider.state(homeState);
-  $stateProvider.state(createMapState);
   $stateProvider.state(editTravelState);
   $stateProvider.state(userProfileState);
   $stateProvider.state(viewTravelState);
