@@ -36,9 +36,6 @@ app.service('mapAction', function(alertService) {
     }
 
     this.removeAllMarkersFromMap = function(mapMarkers) {
-//      for (var marker in mapMarkers) {
-//        mapMarkers[marker].setMap(null);
-//      }
       mapMarkers.map(function(marker) {
         marker.setMap(null);
       });

@@ -21,40 +21,20 @@ public class TravelPojo {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getUser() {
         return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
     public List<Marker> getMarkers() {
         return markers;
-    }
-
-    public void setMarkers(List<Marker> markers) {
-        this.markers = markers;
     }
 
 }

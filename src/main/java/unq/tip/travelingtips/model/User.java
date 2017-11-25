@@ -15,7 +15,9 @@ public class User implements Serializable {
     private Long id;
 
     private String token;
+
     private String name;
+
     private String photoUrl;
 
     @ElementCollection

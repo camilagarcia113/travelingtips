@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Embeddable
 public class Marker implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -14,9 +13,13 @@ public class Marker implements Serializable {
     private Long id;
 
     private String latitude;
+
     private String longitude;
+
     private Integer sequence;
+
     private String comment;
+
     private Integer rating;
 
     public Marker(String aLatitude, String aLongitude, Integer aSequence,

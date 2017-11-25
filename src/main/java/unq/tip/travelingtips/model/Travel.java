@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ID", "USER"})})
 public class Travel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,7 +21,7 @@ public class Travel implements Serializable {
 
     private String summary;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Marker> placesVisited;
 
     public Travel () {}
