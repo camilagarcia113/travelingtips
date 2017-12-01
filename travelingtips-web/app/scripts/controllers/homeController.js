@@ -155,6 +155,7 @@ app.controller('HomeController', function($scope, $http, alertService, mapAction
     $scope.markers = [];
     $scope.mapMarked = false;
     input.value = "";
+    $scope.$apply();
   }
 
 });

@@ -3,7 +3,7 @@
   width: 50%;
 }*/
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, .header-limiter {
   margin-left: 1%;
 }
 
@@ -157,9 +157,12 @@ h1, h2, h3, h4, h5 {
 }
 
 #deleteAll {
-  margin-left: 88%;
+  margin-left: 84%;
 }
 
+.commentPannel {
+  margin-left: -4%;
+}
 /** HEADER CSS **/
 .header-basic {
 	background-color: #292c2f;

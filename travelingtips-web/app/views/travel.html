@@ -18,7 +18,7 @@
         </div>
 
         <div class="col-sm-6">
-            <div class="panel panel-default" ng-show="isMapMarked">
+            <div class="panel panel-default commentPannel" ng-show="isMapMarked">
                 <div class="panel-heading">Podes cambiar comentarios y/o ratings</div>
                 <div class="panel-body">
                     <button id="deleteAll" type="button" class="btn btn-default" ng-click="deleteAllMarkers()">Borrar todos</button>
@@ -32,7 +32,7 @@
                             </span>
                             <button ng-click="deleteMarker(marker)" type="button" class="btn"><span class="glyphicon glyphicon-remove"></span></button>
                         </div>
-                        <textarea class="form-control" rows="3" id="comment" maxlength="200"
+                        <textarea class="form-control" rows="3" id="comment" maxlength="280"
                                   ng-model="marker.comment" placeholder="Escribi un comentario sobre el lugar!">
                         </textarea>
                     </div>
